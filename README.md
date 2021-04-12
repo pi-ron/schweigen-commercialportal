@@ -1,4 +1,4 @@
-# sd977-commercialportal
+# SD977-commercialportal
 
 ## Project setup
 ```
