@@ -1,0 +1,71 @@
+@font-face {
+  font-family: 'Schweigen Commercial Icons';
+  src: url('https://assets.website-files.com/6007b4af01b37638d431e8f4/60188dcefba849ef4ce19715_sch-commercialportal.woff2') format('woff2'), url('https://assets.website-files.com/6007b4af01b37638d431e8f4/60188dced10fc80263e4bc88_sch-commercialportal.eot') format('embedded-opentype'), url('https://assets.website-files.com/6007b4af01b37638d431e8f4/60188dce3ec863476615c9c6_sch-commercialportal.woff') format('woff'), url('https://assets.website-files.com/6007b4af01b37638d431e8f4/60188dce9bd8f6646b5d6cc6_sch-commercialportal.ttf') format('truetype'), url('https://assets.website-files.com/6007b4af01b37638d431e8f4/60188dced870f90cb98158b5_sch-commercialportal.svg') format('svg');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'sch-commercialportal';
+    src: url('../font/sch-commercialportal.svg?74188264#sch-commercialportal') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "Schweigen Commercial Icons";
+  font-style: normal;
+  font-weight: normal;
+  speak: never;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-pdf-file-format:before { content: '\e800'; } /* '' */
+.icon-doc-file-format:before { content: '\e801'; } /* '' */
+.icon-jpg-file-format:before { content: '\e802'; } /* '' */
+.icon-xls-file-format:before, .icon-xlsx-file-format:before { content: '\e803'; } /* '' */
+.icon-png-file-format:before { content: '\e804'; } /* '' */
+.icon-3ds-file-format:before { content: '\e805'; } /* '' */
+.icon-ppt-file-format:before { content: '\e806'; } /* '' */
+.icon-cad-file-format:before { content: '\e807'; } /* '' */
+.icon-arrowright:before { content: '\e808'; } /* '' */
+.icon-downloads:before { content: '\e80a'; } /* '' */
+.icon-facebook:before { content: '\e80b'; } /* '' */
+.icon-hous:before { content: '\e80d'; } /* '' */
+.icon-insta:before { content: '\e80e'; } /* '' */
+.icon-pinterest:before { content: '\e80f'; } /* '' */
+.icon-twitter:before { content: '\e811'; } /* '' */
+.icon-bookaconsult:before { content: '\e812'; } /* '' */
+.icon-productexplorer:before { content: '\e814'; } /* '' */
+.icon-filters:before { content: '\e815'; } /* '' */
