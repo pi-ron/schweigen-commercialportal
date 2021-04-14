@@ -6,12 +6,14 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import FileType from '@/components/atoms/FileType.vue';
+import { FileCad } from 'mdue';
 
 export default {
   name: 'Downloads',
   components: {
-    HelloWorld,
+    FileType,
+    FileCad,
   },
   data() {
     return {

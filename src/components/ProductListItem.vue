@@ -21,14 +21,14 @@
             {{ model }}
           </div>
         </div>
-        <h1
-        class="label-02">{{ name }}</h1>
+        <h2
+        class="heading xxs">{{ name }}</h2>
       </div>
     </router-link>
 
     <div v-if="(downloads.length > 0)" class="product-list-item-downloads">
-      <div class="tag-03">
-        <div class="tag-03-text">
+      <div class="tag-02 s-m-t-8">
+        <div class="tag-02-text dark">
           Downloads
         </div>
       </div>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+
 export default {
 
   name: 'ProductListItem',
@@ -68,7 +69,6 @@ export default {
       // console.log(unfilteredDownloads);
       // eslint-disable-next-line prefer-destructuring
       const model = this.model;
-      console.log(model);
 
       Object.keys(unfilteredDownloads).forEach((key) => {
         const download = unfilteredDownloads[key];
@@ -94,9 +94,20 @@ export default {
 .teaser-link {
   text-decoration:none;
   color:#000000;
+  display:block;
+  .product-teaser-color-tile {
+    transition: width 0.25s;
+    transition-timing-function: ease-out;
+  }
 
   &:hover {
     color:#db0962;
+    .heading {
+      color:#db0962;
+    }
+    .product-teaser-color-tile {
+      width:60%;
+    }
   }
 }
 .teaser-thumbnail-wrapper {

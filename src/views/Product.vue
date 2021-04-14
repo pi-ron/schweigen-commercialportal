@@ -93,38 +93,31 @@
                 <div class="table-col">
                   <div class="text-left">Name</div>
                 </div>
-                <div class="table-col">
+<!--                 <div class="table-col">
                   <div  class="text-center">Size</div>
-                </div>
+                </div> -->
                 <div class="table-col">
                   <div class="text-center">Type</div>
                 </div>
-                <div class="table-col">
-                  <div class="text-center">Download</div>
-                </div>
               </div>
-                <div class="table-row"  v-for="download in downloads" :key="download">
+                <a
+                class="table-row clickable"
+                v-for="download in downloads"
+                :key="download"
+                :href="download.fields['computed-download-url']">
 
                   <div class="table-col text-left">
                     <span>{{ download.fields["display-name"] }}</span>
                   </div>
-                  <div class="table-col">
-                    {{download.fields.filesize}}
-                  </div>
+<!--                   <div class="table-col">
+                    <FileSize v-bind:url="download.fields['computed-download-url']"></FileSize>
+                  </div> -->
                   <div class="table-col">
                     <FileType
                     v-bind:url="download.fields['computed-download-url']"
-                    class="filetype"></FileType>
+                    ></FileType>
                   </div>
-                  <div class="table-col">
-                   <!-- <Button
-                   v-bind:href="download.fields['computed-download-url']"
-                   size="small"
-                   type="secondary">
-                   </Button> -->
-                   <a :href="download.fields['computed-download-url']">Download</a>
-                  </div>
-                </div>
+                </a>
               </div>
             </div>
           </div>
@@ -175,11 +168,13 @@
 <script>
 // @ is an alias to /src
 import FileType from '@/components/atoms/FileType.vue';
+// import FileSize from '@/components/atoms/FileSize.vue';
 
 export default {
   name: 'Product',
   components: {
     FileType,
+    // FileSize,
   },
   props: {
     name: String,
@@ -215,13 +210,10 @@ export default {
       return result;
     },
   },
-  mounted() {
-    console.log(JSON.stringify(this.downloads));
-  },
 };
 </script>
 
-<style lang="css">
+<style lang="scss">
 
 .product-hero-wrapper {
   max-height:500px;
@@ -240,6 +232,17 @@ export default {
 
 .table-row, .table-head {
   display:flex;
+  font-size:0.85rem;
+  font-weight:normal;
+  color:#5e6875;
+}
+
+.table-row.clickable {
+  text-decoration: none;
+  border-top:1px solid white;
+  &:hover {
+    background:#f9f9f9;
+  }
 }
 
 .table-head {
@@ -251,7 +254,4 @@ export default {
   text-align: left;
 }
 
-.filetype {
-  text-transform:uppercase;
-}
 </style>
