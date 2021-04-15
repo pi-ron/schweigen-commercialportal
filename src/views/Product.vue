@@ -8,7 +8,7 @@
               <div class="line tag-03"></div>
               <div class="tagline s-m-b-0">Commercial Portal</div>
             </div>
-            <h1 class="heading xl">{{name}}</h1>
+            <h1 class="heading xl">{{ name }}</h1>
             <div class="breadcrumbs">
               <a href="#" class="breadcrumbs-link">Home</a>
               <img src="https://assets.website-files.com/6007b4af01b37638d431e8f4/60178790556ad849c6eb2b2d_Chevron%20Right%20Light.png" alt="">
@@ -93,9 +93,9 @@
                 <div class="table-col">
                   <div class="text-left">Name</div>
                 </div>
-<!--                 <div class="table-col">
+                <div class="table-col">
                   <div  class="text-center">Size</div>
-                </div> -->
+                </div>
                 <div class="table-col">
                   <div class="text-center">Type</div>
                 </div>
@@ -109,9 +109,9 @@
                   <div class="table-col text-left">
                     <span>{{ download.fields["display-name"] }}</span>
                   </div>
-<!--                   <div class="table-col">
+             <div class="table-col">
                     <FileSize v-bind:url="download.fields['computed-download-url']"></FileSize>
-                  </div> -->
+                  </div>
                   <div class="table-col">
                     <FileType
                     v-bind:url="download.fields['computed-download-url']"
@@ -168,13 +168,13 @@
 <script>
 // @ is an alias to /src
 import FileType from '@/components/atoms/FileType.vue';
-// import FileSize from '@/components/atoms/FileSize.vue';
+import FileSize from '@/components/atoms/FileSize.vue';
 
 export default {
   name: 'Product',
   components: {
     FileType,
-    // FileSize,
+    FileSize,
   },
   props: {
     name: String,

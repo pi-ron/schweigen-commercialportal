@@ -6,6 +6,6 @@ module.exports = {
   //   config.plugins.delete('prefetch')
   // }
   devServer: {
-    proxy: 'http://localhost:4000',
+    proxy: 'https://storage.googleapis.com/',
   },
 };

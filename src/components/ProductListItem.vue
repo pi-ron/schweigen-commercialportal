@@ -25,29 +25,43 @@
         class="heading xxs">{{ name }}</h2>
       </div>
     </router-link>
-
-    <div v-if="(downloads.length > 0)" class="product-list-item-downloads">
-      <div class="tag-02 s-m-t-8">
-        <div class="tag-02-text dark">
-          Downloads
+    <template>
+      <div v-if="downloadsLoading" class="product-list-item-downloads">
+        <div class="tag-02 s-m-t-8">
+          <div class="tag-02-text dark">
+            Downloads
+          </div>
         </div>
+        <Spinner></Spinner>
       </div>
-      <a
-        v-for="download in downloads"
-        :key="download"
-        :href="download.fields['computed-download-url']"
-        class="product-list-item-download">
-          {{ download.fields.name }}
-      </a>
-    </div>
+    </template>
+      <div v-if="(downloads.items.length > 0)"
+        class="product-list-item-downloads">
+        <div class="tag-02 s-m-t-8">
+          <div class="tag-02-text dark">
+            Downloads
+          </div>
+        </div>
+        <a
+          v-for="download in downloads['items']"
+          :key="download"
+          :href="download.fields['computed-download-url']"
+          class="product-list-item-download">
+            {{ download.fields.name }}
+        </a>
+      </div>
   </div>
 </template>
 
 <script>
+import Spinner from '@/components/atoms/Spinner.vue';
 
 export default {
 
   name: 'ProductListItem',
+  components: {
+    Spinner,
+  },
   props: {
     name: String,
     image: String,
@@ -62,8 +76,19 @@ export default {
   },
   computed: {
     loading() { return this.sharedState.products.loading; },
+    downloadsLoading() {
+      if (this.downloads && this.downloads.loading) {
+        return true;
+      } if (!this.downloads) {
+        return true;
+      }
+      // if (this.downloads && !this.downloads.loading) {
+      //   return false;
+      // }
+      return true;
+    },
     downloads() {
-      const result = [];
+      const result = { loading: true, items: [] };
 
       const unfilteredDownloads = this.store.state.downloads.unfiltered.records;
       // console.log(unfilteredDownloads);
@@ -75,10 +100,11 @@ export default {
         // console.log(download.fields.name);
         const name = download.fields.name.toLowerCase();
         if (name.includes(model.toLowerCase())) {
-          result.push(download);
+          result.items.push(download);
         }
       });
 
+      result.loading = false;
       return result;
     },
   },

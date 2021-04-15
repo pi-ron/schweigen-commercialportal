@@ -1,14 +1,20 @@
 <template>
+
   <template v-if="!loadingFileSize && !fileSizeErrored">
     <span>{{ humanSize }}</span>
   </template>
-  <template v-if="loadingFileSize && !fileSizeErrored">Loading file size...</template>
+  <template v-if="loadingFileSize && !fileSizeErrored"><Spinner></Spinner></template>
   <template v-if="loadingFileSize && fileSizeErrored">File size error...</template>
 </template>
 
 <script>
+import Spinner from '@/components/atoms/Spinner.vue';
+
 export default {
   name: 'FileSize',
+  components: {
+    Spinner,
+  },
   props: {
     size: String,
     url: String,
@@ -24,16 +30,32 @@ export default {
     };
   },
   beforeMount() {
-    // this.axios.head(this.url).then((response) => {
-    //   this.filesize = response.headers['content-length'];
-    //   this.loadingFileSize = false;
-    //   this.humanSize = this.humanFileSize(this.filesize);
-    //   console.log(response);
-    // }, (error) => {
-    //   console.log(error);
-    //   this.loadingFileSize = false;
-    //   this.fileSizeErrored = true;
-    // });
+    if (this.url.includes('storage.googleapis.com')) {
+      this.hostedOn = 'Google Cloud Storage';
+      this.axios.get('https://timdaff.api.stdlib.com/sd977-frontend-api@0.2.0/get/getGoogleCloudPublicFileHeaders/', { params: { url: this.url } }).then((response) => {
+        this.filesize = response.data.headers['content-length'];
+        this.loadingFileSize = false;
+        this.humanSize = this.humanFileSize(this.filesize);
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+        this.loadingFileSize = false;
+        this.fileSizeErrored = true;
+      });
+    } else {
+      this.hostedOn = 'Webflow';
+      this.axios.head(this.url).then((response) => {
+        this.filesize = response.headers['content-length'];
+        this.loadingFileSize = false;
+        this.humanSize = this.humanFileSize(this.filesize);
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+        this.loadingFileSize = false;
+        this.fileSizeErrored = true;
+      });
+    }
+    console.log(this.hostedOn);
   },
   mounted() {
     // console.log(this.loadingFileSize);
