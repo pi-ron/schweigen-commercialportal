@@ -8,7 +8,8 @@
     field,
     value,
     filterName)">
-    {{ value }}
+    <template v-if="!text">{{ value }}</template>
+    <template v-if="text">{{ text }}</template>
   </a>
 </template>
 
@@ -21,6 +22,7 @@ export default {
     field: String,
     value: String,
     filterName: String,
+    text: String,
   },
   data() {
     return {

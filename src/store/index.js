@@ -74,22 +74,41 @@ const store = {
     }
 
     const result = {};
-    Object.keys(unfilteredItems).forEach((key) => {
-      const item = unfilteredItems[key];
-      let targetField = '';
-      if (Array.isArray(item.fields[field])) {
-        targetField = item.fields[field][0].toLowerCase();
-      } else if (item.fields[field]) {
-        targetField = item.fields[field].toLowerCase();
-      }
-      if (targetField.includes(value.toLowerCase())) {
-        result[key] = item;
-        result[key].active = true;
-      } else {
-        // result[key] = item;
-        // result[key].active = false;
-      }
-    });
+    let item = '';
+    let targetField = '';
+
+    if (filterName === 'Width') {
+      const range = value.split('-');
+      const lowerRange = range[0];
+      const upperRange = range[1];
+
+      Object.keys(unfilteredItems).forEach((key) => {
+        item = unfilteredItems[key];
+        targetField = item.fields[field];
+
+        if (targetField > lowerRange && targetField < upperRange) {
+          result[key] = item;
+          result[key].active = true;
+        }
+      });
+    } else if (filterName !== 'Width') {
+      Object.keys(unfilteredItems).forEach((key) => {
+        item = unfilteredItems[key];
+        targetField = '';
+        if (Array.isArray(item.fields[field])) {
+          targetField = item.fields[field][0].toLowerCase();
+        } else if (item.fields[field]) {
+          targetField = item.fields[field].toLowerCase();
+        }
+        if (targetField.includes(value.toLowerCase())) {
+          result[key] = item;
+          result[key].active = true;
+        } else {
+          // result[key] = item;
+          // result[key].active = false;
+        }
+      });
+    }
     if (table === 'Catalogue') {
       this.state.products.filtered.records = result;
       this.state.products.filtered.counter = Object.keys(result).length;

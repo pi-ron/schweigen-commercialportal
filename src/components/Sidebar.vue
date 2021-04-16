@@ -36,6 +36,54 @@
       alt=""
       class="icon-image mini filter-trigger-icon filter-open"
       style="display: block;">
+      <div class="filters-trigger-text">Product Category</div>
+    </div>
+    <div class="filter-options filter-bar-category" style="display: block;">
+        <FilterToggle
+          table="Catalogue"
+          field="product-category-name"
+          value="Undermount"
+          filterName="Product Category"
+        ></FilterToggle>
+        <FilterToggle
+          table="Catalogue"
+          field="product-category-name"
+          value="Wallmount"
+          filterName="Product Category"
+        ></FilterToggle>
+        <FilterToggle
+          table="Catalogue"
+          field="product-category-name"
+          value="Ceiling Cassette"
+          filterName="Product Category"
+        ></FilterToggle>
+        <FilterToggle
+          table="Catalogue"
+          field="product-category-name"
+          value="BBQ Alfresco"
+          filterName="Product Category"
+        ></FilterToggle>
+        <FilterToggle
+          table="Catalogue"
+          field="product-category-name"
+          value="Island"
+          filterName="Product Category"
+        ></FilterToggle>
+        <FilterToggle
+          table="Catalogue"
+          field="product-category-name"
+          value="Silent Exhuast Fan"
+          filterName="Product Category"
+        ></FilterToggle>
+    </div>
+  </div>
+  <div class="filter-container">
+    <div class="filter-trigger">
+      <img src="https://assets.website-files.com/6007b4af01b37638d431e8f4/601890cb6ba8ee0877501a94_Filter-Minus.svg"
+      loading="lazy"
+      alt=""
+      class="icon-image mini filter-trigger-icon filter-open"
+      style="display: block;">
       <div class="filters-trigger-text">Brand</div>
     </div>
     <div class="filter-options filter-bar-category" style="display: block;">
@@ -58,7 +106,46 @@
           filterName="Brand"
         ></FilterToggle>
     </div>
-    <FilterReset v-if="sharedState.filterActive"></FilterReset>
+  </div>
+  <div class="filter-container">
+    <div class="filter-trigger">
+      <img src="https://assets.website-files.com/6007b4af01b37638d431e8f4/601890cb6ba8ee0877501a94_Filter-Minus.svg"
+      loading="lazy"
+      alt=""
+      class="icon-image mini filter-trigger-icon filter-open"
+      style="display: block;">
+      <div class="filters-trigger-text">Width</div>
+    </div>
+    <div class="filter-options filter-bar-category" style="display: block;">
+        <FilterToggle
+          table="Catalogue"
+          field="dimensions-width"
+          value="0-650"
+          text="600mm & below"
+          filterName="Width"
+        ></FilterToggle>
+        <FilterToggle
+          table="Catalogue"
+          field="dimensions-width"
+          value="890-905"
+          text="900mm"
+          filterName="Width"
+        ></FilterToggle>
+        <FilterToggle
+          table="Catalogue"
+          field="dimensions-width"
+          value="950-1250"
+          text="1000-1200mm"
+          filterName="Width"
+        ></FilterToggle>
+        <FilterToggle
+          table="Catalogue"
+          field="dimensions-width"
+          value="1450-2050"
+          text="1500-2000mm"
+          filterName="Width"
+        ></FilterToggle>
+    </div>
   </div>
   <div class="filter-container">
     <div class="filter-trigger">
@@ -90,6 +177,7 @@
         ></FilterToggle>
     </div>
   </div>
+    <FilterReset v-if="sharedState.filterActive"></FilterReset>
 </template>
 
 <script>
