@@ -55,6 +55,8 @@
 
 <script>
 import Spinner from '@/components/atoms/Spinner.vue';
+// import { registerRoute } from 'workbox-routing';
+// import { StaleWhileRevalidate } from 'workbox-strategies';
 
 export default {
 
@@ -75,6 +77,14 @@ export default {
     };
   },
   computed: {
+    // filterState() {
+    //   if (this.active) {
+    //     console.log('active');
+    //   } else {
+    //     console.log('inactive');
+    //   }
+    //   return this.active;
+    // },
     loading() { return this.sharedState.products.loading; },
     downloadsLoading() {
       if (this.downloads && this.downloads.loading) {
@@ -112,6 +122,13 @@ export default {
     setCurrentProduct(record) {
       this.store.setCurrentProduct(record);
     },
+  },
+  mounted() {
+    // const url = this.image;
+    // registerRoute(
+    //   ({ url }) => url.pathname.startsWith('/images/avatars/'),
+    //   new StaleWhileRevalidate(),
+    // );
   },
 };
 </script>

@@ -11,6 +11,10 @@ const airtableAxios = axios.create({
 const store = {
   debug: false,
   state: reactive({
+    filterActive: false,
+    activeFilterTable: null,
+    activeFilterName: null,
+    activeFilterValue: null,
     products: {
       message: 'No Products currently in state.',
       filtered: {
@@ -46,6 +50,60 @@ const store = {
   setCurrentProduct(product) {
     this.state.currentProduct = product;
   },
+  resetFilters(table) {
+    if (table === 'Catalogue') {
+      this.state.products.filtered.records = this.state.products.unfiltered.records;
+      this.state.products.filtered.counter = 0;
+    }
+    if (table === 'Downloads') {
+      this.state.downloads.filtered.records = this.state.downloads.unfiltered.records;
+      this.state.downloads.filtered.counter = 0;
+    }
+    this.state.activeFilterName = null;
+    this.state.activeFilterValue = null;
+    this.state.filterActive = false;
+  },
+  filterRecords(table, field, value, filterName) {
+    let unfilteredItems = [];
+
+    if (table === 'Catalogue') {
+      unfilteredItems = this.state.products.unfiltered.records;
+    }
+    if (table === 'Downloads') {
+      unfilteredItems = this.state.downloads.unfiltered.records;
+    }
+
+    const result = {};
+    Object.keys(unfilteredItems).forEach((key) => {
+      const item = unfilteredItems[key];
+      let targetField = '';
+      if (Array.isArray(item.fields[field])) {
+        targetField = item.fields[field][0].toLowerCase();
+      } else if (item.fields[field]) {
+        targetField = item.fields[field].toLowerCase();
+      }
+      if (targetField.includes(value.toLowerCase())) {
+        result[key] = item;
+        result[key].active = true;
+      } else {
+        // result[key] = item;
+        // result[key].active = false;
+      }
+    });
+    if (table === 'Catalogue') {
+      this.state.products.filtered.records = result;
+      this.state.products.filtered.counter = Object.keys(result).length;
+    }
+    if (table === 'Downloads') {
+      this.state.downloads.filtered.records = result;
+      this.state.downloads.filtered.counter = Object.keys(result).length;
+    }
+
+    this.state.activeFilterTable = table;
+    this.state.activeFilterName = filterName;
+    this.state.activeFilterValue = value;
+    this.state.filterActive = true;
+  },
   getRecords(table) {
     if (table === 'Catalogue') {
       if (this.debug) {
@@ -56,7 +114,9 @@ const store = {
       airtableAxios.get(`/getAllRecords?table=${table}`)
         .then((response) => {
           products.unfiltered.records = response.data.records;
+          products.filtered.records = response.data.records;
           products.unfiltered.counter = response.data.count;
+          products.filtered.counter = response.data.count;
 
           if (this.debug) {
             console.log(`/getAllRecords?table=${table} response:`);
@@ -80,7 +140,9 @@ const store = {
       airtableAxios.get('/getAllRecords?table=Downloads')
         .then((response) => {
           downloads.unfiltered.records = response.data.records;
+          downloads.filtered.records = response.data.records;
           downloads.unfiltered.counter = response.data.count;
+          downloads.filtered.counter = response.data.count;
 
           if (this.debug) {
             console.log('/getAllRecords?table=Downloads response:');
@@ -110,7 +172,9 @@ const store = {
       airtableAxios.get(`/getAllRecords?table=${table}`)
         .then((response) => {
           downloads.unfiltered.records = response.data.records;
+          downloads.filtered.records = response.data.records;
           downloads.unfiltered.counter = response.data.count;
+          downloads.filtered.counter = response.data.count;
 
           if (this.debug) {
             console.log(`/getAllRecords?table=${table} response:`);

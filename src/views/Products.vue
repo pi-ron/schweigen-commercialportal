@@ -23,24 +23,26 @@
     <div class="container">
       <div class="w-layout-grid grid-long-content-2 s-x-48">
         <aside class="sl-sidebar">
-          <div class="sl-sidebar-sticky"></div>
+          <div class="sl-sidebar-sticky">
+            <Sidebar></Sidebar>
+          </div>
         </aside>
         <div class="page-content product-categories">
           <tableLoading v-if="loading"></tableLoading>
           <div class="w-dyn-list" v-if="!loading">
             <div role="list" class="teaser-grid large products-list w-dyn-items">
 
-              <ProductListItem
-              v-for="product in sharedState.products.unfiltered.records"
-              role="listitem"
-              :key="product"
-              :record="product.fields"
-              v-bind:name="product.fields['display-name']"
-              v-bind:model="product.fields.name"
-              v-bind:image="product.fields['deep-etched-product-image']"
-              v-bind:record_id="product.id"
-              >
-            </ProductListItem>
+                <ProductListItem
+                  v-for="product in sharedState.products.filtered.records"
+                  role="listitem"
+                  :key="product"
+                  :record="product.fields"
+                  v-bind:name="product.fields['display-name']"
+                  v-bind:model="product.fields.name"
+                  v-bind:image="product.fields['deep-etched-product-image']"
+                  v-bind:record_id="product.id"
+                  >
+                </ProductListItem>
 
           </div>
         </div>
@@ -55,12 +57,14 @@
 // @ is an alias to /src
 import tableLoading from '@/components/atoms/tableLoading.vue';
 import ProductListItem from '@/components/ProductListItem.vue';
+import Sidebar from '@/components/Sidebar.vue';
 
 export default {
   name: 'Products',
   components: {
     tableLoading,
     ProductListItem,
+    Sidebar,
   },
   data() {
     return {
@@ -69,6 +73,12 @@ export default {
   },
   computed: {
     loading() { return this.sharedState.products.loading; },
+    products() {
+      return this.sharedState.products.filtered.records;
+    },
+  },
+  mounted() {
+    // this.store.setupRecords();
   },
 };
 </script>
