@@ -15,15 +15,14 @@
       <div class="filters-trigger-text">{{ filterGroup.name }}</div>
     </div>
     <div class="filter-options filter-bar-category" style="display: block;">
-      <a
+      <button
         class="filter-option filter-button w-inline-block"
         v-for="filter in filterGroup.filterValues"
         :key="filter"
         v-bind:class="{ 'filter-active': filter.active }"
-        href="#"
         v-on:click="activateFilter(filter)">
         {{ filter.display }}
-      </a>
+      </button>
     </div>
   </div>
   <hr >

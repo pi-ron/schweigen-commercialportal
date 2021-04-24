@@ -159,118 +159,79 @@ const store = {
 };
 watch(
   () => _.cloneDeep(state.filtering.activeFilters),
-  (ActiveFilters, PrevFilters) => {
+  // (ActiveFilters, PrevFilters) => {
+  (ActiveFilters) => {
     // const deactivatedFilters = _.differenceWith(prevActive, newActiveFilters, _.isEqual);
     const { filterGroups } = state.filtering;
-    const { activeFiltersCombined } = state.filtering;
+    const { records } = state.products.unfiltered;
+    // const activeGroups = [];
+    let filteredRecords = [];
+    filterGroups.forEach((item) => {
+      if (item.active) {
+        // activeGroups.push(item);
+        // console.log(item);
+        filteredRecords = filters.applyFilterGroup(item, records);
+      }
+    });
+    store.setFilteredRecords(filteredRecords);
+    if (ActiveFilters.length === 0) {
+      store.setFilteredRecords(records);
+    }
+    // console.log(activeGroups);
+    // const widthGroup = activeGroups[0];
+    // console.log(filters.applyFilterGroup(widthGroup, records));
+    //
+    // Previous attempt below.
+    //
+    // const { activeFiltersCombined } = state.filtering;
     // console.log('deactivatedFilters:');
     // console.log(deactivatedFilters);
     // const filtersCombined = [];
-    const currentFiltersMapped = _.map(ActiveFilters, _.partialRight(_.pick, ['field', 'value', 'active']));
+    // const currentFiltersMapped
+    // = _.map(ActiveFilters, _.partialRight(_.pick, ['field', 'value', 'active']));
     // console.log(mapped);
-    currentFiltersMapped.forEach((filter) => {
-      if (activeFiltersCombined[filter.field]
-        && activeFiltersCombined[filter.field].length > 0
-        && filter.active) {
-        if (!activeFiltersCombined[filter.field].includes(filter.value)) {
-          activeFiltersCombined[filter.field] += ' || ';
-          activeFiltersCombined[filter.field] += filter.value;
-        }
-      } else if (filter.active) {
-        activeFiltersCombined[filter.field] = filter.value;
-      }
-    });
-
-    const prevFiltersMapped = _.map(PrevFilters, _.partialRight(_.pick, ['field', 'value', 'active']));
-    const removedFilters = _.differenceWith(prevFiltersMapped, currentFiltersMapped, _.isEqual);
-    // console.log(removedFilters);
-    removedFilters.forEach((filter) => {
-      if (activeFiltersCombined[filter.field].includes(`${filter.value} || `)) {
-        activeFiltersCombined[filter.field] = activeFiltersCombined[filter.field].replace(`${filter.value} || `, '');
-        // console.log('filter found WITH OR');
-        if (activeFiltersCombined[filter.field] === '') {
-          delete activeFiltersCombined[filter.field];
-        }
-      } else if (activeFiltersCombined[filter.field].includes(` || ${filter.value}`)) {
-        activeFiltersCombined[filter.field] = activeFiltersCombined[filter.field].replace(` || ${filter.value}`, '');
-        // console.log('filter found WITH OR');
-        if (activeFiltersCombined[filter.field] === '') {
-          delete activeFiltersCombined[filter.field];
-        }
-      } else if (activeFiltersCombined[filter.field].includes(filter.value)) {
-        activeFiltersCombined[filter.field] = activeFiltersCombined[filter.field].replace(filter.value, '');
-        // console.log('filter found without OR');
-        if (activeFiltersCombined[filter.field] === '') {
-          delete activeFiltersCombined[filter.field];
-        }
-      }
-      // Find the removed item in the activeFiltersCombined array.
-    });
-
-    const activeGroups = [];
-    filterGroups.forEach((item) => {
-      if (item.active) {
-        activeGroups.push(item);
-      }
-    });
-    console.log(activeGroups);
-    const widthGroup = activeGroups[0];
-    const { records } = state.products.unfiltered;
-    // let merged = [];
-    // let filtered = [];
-    // widthGroup.filterValues.forEach((filter) => {
-    //   if (filter.active) {
-    //     console.log(filter.value);
-    //     filtered = _.filter(records, (r) => filters.range(filter.value, r.fields[filter.field]));
-    //     merged = filters.mergeUnique(merged, filtered);
-    //   }
-    // });
-    // merged = filters.applyFilterGroup(widthGroup, records);
-    //
-    // console.log(filters.applyFilterGroup(widthGroup, records));
-    // console.log(merged);
-    // function mergeUnique(a, b) {
-    //   return a.concat(b.filter((v) => a.indexOf(v) === -1));
-    // }
-    // function applyFilterGroup(filterGroup, recs) {
-    //   let filtered = [];
-    //   let merged = [];
-    //   filterGroup.filterValues.forEach((filter) => {
-    //     if (filter.active) {
-    //       console.log(filter.value);
-    //       filtered = _.filter(recs, (r) => filters.range(filter.value, r.fields[filter.field]));
-    //       merged = mergeUnique(merged, filtered);
-    //       // return merged;
+    // currentFiltersMapped.forEach((filter) => {
+    //   if (activeFiltersCombined[filter.field]
+    //     && activeFiltersCombined[filter.field].length > 0
+    //     && filter.active) {
+    //     if (!activeFiltersCombined[filter.field].includes(filter.value)) {
+    //       activeFiltersCombined[filter.field] += ' || ';
+    //       activeFiltersCombined[filter.field] += filter.value;
     //     }
-    //     return 'No records';
-    //   });
-    //   console.log(merged);
-    //   return merged;
-    // }
-    console.log(filters.applyFilterGroup(widthGroup, records));
-    store.setFilteredRecords(filters.applyFilterGroup(widthGroup, records));
-    // mapped.forEach((item) => {
-    //   const fieldValuePair = {};
-    //   if (fieldValuePair[item.field]) {
-    //     fieldValuePair[item.field] = `${fieldValuePair[item.field]} | ${item.value}`;
-    //   } else {
-    //     fieldValuePair[item.field] = item.value;
+    //   } else if (filter.active) {
+    //     activeFiltersCombined[filter.field] = filter.value;
     //   }
-    //
-    //   filtersCombined.push(fieldValuePair);
-    //   filtersCombined.forEach((filter) => {
-    //     const keys = Object.keys(filter);
-    //     console.log(keys);
-    //   });
-    //
-    //   // for (const key in keys) {
-    //   //   if (key) {
-    //   //     console.log(key, key === item.field);
-    //   //   }
-    //   // }
     // });
-    // console.log('filtersCombined:');
-    // console.log(filtersCombined);
+
+    // const prevFiltersMapped
+    // = _.map(PrevFilters, _.partialRight(_.pick, ['field', 'value', 'active']));
+    // const removedFilters = _.differenceWith(prevFiltersMapped, currentFiltersMapped, _.isEqual);
+    // console.log(removedFilters);
+    // removedFilters.forEach((filter) => {
+    //   if (activeFiltersCombined[filter.field].includes(`${filter.value} || `)) {
+    //     activeFiltersCombined[filter.field] =
+    //     activeFiltersCombined[filter.field].replace(`${filter.value} || `, '');
+    // console.log('filter found WITH OR');
+    //   if (activeFiltersCombined[filter.field] === '') {
+    //     delete activeFiltersCombined[filter.field];
+    //   }
+    // } else if (activeFiltersCombined[filter.field].includes(` || ${filter.value}`)) {
+    //   activeFiltersCombined[filter.field]
+    //   = activeFiltersCombined[filter.field].replace(` || ${filter.value}`, '');
+    // console.log('filter found WITH OR');
+    //   if (activeFiltersCombined[filter.field] === '') {
+    //     delete activeFiltersCombined[filter.field];
+    //   }
+    // } else if (activeFiltersCombined[filter.field].includes(filter.value)) {
+    //   activeFiltersCombined[filter.field]
+    //   = activeFiltersCombined[filter.field].replace(filter.value, '');
+    // console.log('filter found without OR');
+    // if (activeFiltersCombined[filter.field] === '') {
+    //   delete activeFiltersCombined[filter.field];
+    // }
+    // }
+    // Find the removed item in the activeFiltersCombined array.
+    // });
   },
   { deep: true },
 );

@@ -40,6 +40,8 @@
                   :record="product.fields"
                   v-bind:name="product.fields['display-name']"
                   v-bind:model="product.fields.name"
+                  v-bind:finish="product.fields.finish"
+                  v-bind:category="product.fields['product-category-name']"
                   v-bind:image="product.fields['deep-etched-product-image']"
                   v-bind:record_id="product.id"
                   >

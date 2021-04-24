@@ -62,16 +62,9 @@ export default {
   },
   // Returns true if match when provided single field value and filter value.
   string(value, data) { // Returns true if match
-    const isArray = Array.isArray(value);
+    console.log(`@filters string(value,data): value: ${value}, data: ${data}`);
     let targetField = '';
-
-    if (isArray) {
-      targetField = data[0].toLowerCase();
-    } else {
-      console.log(isArray);
-      console.log(data);
-      targetField = data.toLowerCase();
-    }
+    targetField = data.toLowerCase();
 
     return targetField.includes(value.toLowerCase());
   },
@@ -81,15 +74,40 @@ export default {
   applyFilterGroup(filterGroup, recs) {
     let filtered = [];
     let merged = [];
-    filterGroup.filterValues.forEach((filter) => {
-      if (filter.active) {
-        console.log(filter.value);
-        filtered = _.filter(recs, (r) => this.range(filter.value, r.fields[filter.field]));
-        merged = this.mergeUnique(merged, filtered);
-        // return merged;
-      }
-      return 'No records';
-    });
+    if (filterGroup.active) {
+      filterGroup.filterValues.forEach((filter) => {
+        if (filter.active) {
+          console.log(`Filter value: ${filter.value}`);
+
+          switch (filterGroup.type) {
+            case 'range':
+              filtered = _.filter(recs, (r) => {
+                const result = this.range(filter.value, r.fields[filter.field]);
+                return result;
+              });
+              break;
+            case 'string':
+              filtered = _.filter(recs, (r) => {
+                let result = [];
+                if (r.fields[filter.field]) {
+                  if (_.isArray(r.fields[filter.field])) {
+                    result = this.string(filter.value, r.fields[filter.field][0]);
+                  } else {
+                    result = this.string(filter.value, r.fields[filter.field]);
+                  }
+                }
+                return result;
+              });
+              break;
+            default:
+              filtered = [];
+          }
+          merged = this.mergeUnique(merged, filtered);
+          // return merged;
+        }
+        return 'No records';
+      });
+    }
     return merged;
   },
 };

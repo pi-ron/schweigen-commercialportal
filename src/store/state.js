@@ -82,7 +82,7 @@ const state = reactive({
       },
       {
         name: 'Brand',
-        field: 'brand',
+        field: 'brand-name',
         type: 'string',
         get active() {
           return this.filterValues.some((f) => f.active);
@@ -94,25 +94,25 @@ const state = reactive({
             display: 'Schweigen Classic',
             value: 'Schweigen Classic',
             active: false,
-            filterGroup: 'brand',
+            filterGroup: 'brand-name',
           },
           {
             display: 'Schweigen IN.',
             value: 'Schweigen IN.',
             active: false,
-            filterGroup: 'brand',
+            filterGroup: 'brand-name',
           },
           {
-            display: 'Schweigen X',
+            display: 'Schweigen XXX',
             value: 'Schweigen X',
             active: false,
-            filterGroup: 'brand',
+            filterGroup: 'brand-name',
           },
         ],
       },
       {
         name: 'Category',
-        field: 'category',
+        field: 'product-category-name',
         type: 'string',
         get active() {
           return this.filterValues.some((f) => f.active);
@@ -124,28 +124,28 @@ const state = reactive({
             display: 'Undermount',
             value: 'Undermount',
             active: false,
-            filterGroup: 'category',
+            filterGroup: 'product-category-name',
           },
           {
             display: 'Wallmount',
             value: 'Wallmount',
             active: false,
-            filterGroup: 'category',
+            filterGroup: 'product-category-name',
           },
           {
             display: 'Ceiling Cassette',
             value: 'Ceiling Cassette',
             active: false,
-            filterGroup: 'category',
+            filterGroup: 'product-category-name',
           },
           {
             display: 'Island',
             value: 'Island',
             active: false,
-            filterGroup: 'category',
+            filterGroup: 'product-category-name',
           },
           {
-            filterGroup: 'category',
+            filterGroup: 'product-category-name',
             display: 'BBQ Alfresco',
             value: 'BBQ Alfresco',
             active: false,

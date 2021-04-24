@@ -23,6 +23,8 @@
         </div>
         <h2
         class="heading xxs">{{ name }}</h2>
+        <template v-if="finish">Finish: {{ finish }} <br></template>
+        <template v-if="category">Category: {{ category[0] }}</template>
       </div>
     </router-link>
     <template>
@@ -68,6 +70,8 @@ export default {
     name: String,
     image: String,
     model: String,
+    finish: String,
+    category: Array,
     record_id: String,
     record: Object,
   },
