@@ -28,6 +28,7 @@
           </div>
         </aside>
         <div class="page-content product-categories">
+<!--          {{ activeFilters }}-->
           <tableLoading v-if="loading"></tableLoading>
           <div class="w-dyn-list" v-if="!loading">
             <div role="list" class="teaser-grid large products-list w-dyn-items">
@@ -69,16 +70,19 @@ export default {
   data() {
     return {
       sharedState: this.store.state,
+      activeFilters: this.store.state.filtering.activeFilters,
     };
   },
   computed: {
     loading() { return this.sharedState.products.loading; },
     products() {
-      return this.sharedState.products.filtered.records;
+      const { records } = this.sharedState.products.unfiltered;
+      return records;
     },
   },
   mounted() {
-    // this.store.setupRecords();
+    // this.store.state.products.filtered.records = this.store.state.products.unfiltered.records;
+    // this.store.setDefaultRecords();
   },
 };
 </script>

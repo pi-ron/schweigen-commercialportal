@@ -7,7 +7,9 @@
     table,
     field,
     value,
-    filterName)">
+    filterName,
+    filterType
+    )">
     <template v-if="!text">{{ value }}</template>
     <template v-if="text">{{ text }}</template>
   </a>
@@ -22,6 +24,7 @@ export default {
     field: String,
     value: String,
     filterName: String,
+    filterType: String,
     text: String,
   },
   data() {
@@ -41,11 +44,11 @@ export default {
     },
   },
   methods: {
-    filterRecords(table, field, value, filterName) {
+    filterRecords(table, field, value, filterName, filterType) {
       if (this.filterActive) {
         this.store.resetFilters(table);
       } else {
-        this.store.filterRecords(table, field, value, filterName);
+        this.store.filterRecords(table, field, value, filterName, filterType);
       }
     },
   },

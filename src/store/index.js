@@ -1,5 +1,9 @@
-import { reactive } from 'vue';
 import axios from 'axios';
+import state from '@/store/state';
+import _ from 'lodash';
+import { watch } from 'vue';
+import filters from '@/filters';
+// import filters from '../filters';
 
 const airtableAxios = axios.create({
   baseURL: 'https://timdaff.api.stdlib.com/sd977-frontend-api@0.1.2/airtable/',
@@ -10,45 +14,38 @@ const airtableAxios = axios.create({
 
 const store = {
   debug: false,
-  state: reactive({
-    filterActive: false,
-    activeFilterTable: null,
-    activeFilterName: null,
-    activeFilterValue: null,
-    products: {
-      message: 'No Products currently in state.',
-      filtered: {
-        records: [],
-        counter: 0,
-      },
-      unfiltered: {
-        records: [],
-        counter: 0,
-        offset: '',
-      },
-      loading: true,
-      errored: false,
-      error: '',
-    },
-    currentProduct: {},
-    downloads: {
-      filtered: {
-        records: [],
-        counter: 0,
-      },
-      unfiltered: {
-        records: [],
-        counter: 0,
-        offset: '',
-      },
-      loading: true,
-      errored: false,
-      error: '',
-      message: 'No Downloads currently in state.',
-    },
-  }),
+  state,
   setCurrentProduct(product) {
     this.state.currentProduct = product;
+  },
+  setDefaultRecords() {
+    this.state.products.filtered.records = this.state.products.unfiltered.records;
+  },
+  setFilteredRecords(records) {
+    this.state.products.filtered.records = records;
+  },
+  activateFilter(filter) {
+    const { activeFilters } = this.state.filtering;
+    const { filterGroups } = this.state.filtering;
+
+    const filterGroupIndex = filterGroups.findIndex((x) => x.field === filter.filterGroup);
+    const filterGroup = filterGroups[filterGroupIndex];
+    const filterIndex = filterGroup.filterValues.findIndex((x) => x.value === filter.value);
+    const filterChanging = filterGroup.filterValues[filterIndex];
+    filterChanging.field = filterGroup.field;
+    if (!filter.active) {
+      activeFilters.push(filterChanging);
+      filterChanging.active = true;
+      // console.log(filterChanging.active);
+    } else {
+      const index = activeFilters.indexOf(filterChanging);
+      if (index > -1) {
+        activeFilters.splice(index, 1);
+      }
+      filterChanging.active = false;
+      // console.log(filterChanging.active);
+    }
+    // console.log(this.state.filtering.activeFilters);
   },
   resetFilters(table) {
     if (table === 'Catalogue') {
@@ -63,65 +60,14 @@ const store = {
     this.state.activeFilterValue = null;
     this.state.filterActive = false;
   },
-  filterRecords(table, field, value, filterName) {
-    let unfilteredItems = [];
-
-    if (table === 'Catalogue') {
-      unfilteredItems = this.state.products.unfiltered.records;
-    }
-    if (table === 'Downloads') {
-      unfilteredItems = this.state.downloads.unfiltered.records;
-    }
-
-    const result = {};
-    let item = '';
-    let targetField = '';
-
-    if (filterName === 'Width') {
-      const range = value.split('-');
-      const lowerRange = range[0];
-      const upperRange = range[1];
-
-      Object.keys(unfilteredItems).forEach((key) => {
-        item = unfilteredItems[key];
-        targetField = item.fields[field];
-
-        if (targetField > lowerRange && targetField < upperRange) {
-          result[key] = item;
-          result[key].active = true;
-        }
-      });
-    } else if (filterName !== 'Width') {
-      Object.keys(unfilteredItems).forEach((key) => {
-        item = unfilteredItems[key];
-        targetField = '';
-        if (Array.isArray(item.fields[field])) {
-          targetField = item.fields[field][0].toLowerCase();
-        } else if (item.fields[field]) {
-          targetField = item.fields[field].toLowerCase();
-        }
-        if (targetField.includes(value.toLowerCase())) {
-          result[key] = item;
-          result[key].active = true;
-        } else {
-          // result[key] = item;
-          // result[key].active = false;
-        }
-      });
-    }
-    if (table === 'Catalogue') {
-      this.state.products.filtered.records = result;
-      this.state.products.filtered.counter = Object.keys(result).length;
-    }
-    if (table === 'Downloads') {
-      this.state.downloads.filtered.records = result;
-      this.state.downloads.filtered.counter = Object.keys(result).length;
-    }
-
-    this.state.activeFilterTable = table;
-    this.state.activeFilterName = filterName;
-    this.state.activeFilterValue = value;
-    this.state.filterActive = true;
+  filterRecords() {
+    const unfilteredItems = this.state.products.unfiltered;
+    const filteredItems = _.filter(
+      unfilteredItems,
+      _.matches(this.state.filtering.activeFiltersCombined),
+    );
+    console.log(filteredItems);
+    this.state.products.filtered.records = filteredItems;
   },
   getRecords(table) {
     if (table === 'Catalogue') {
@@ -133,9 +79,7 @@ const store = {
       airtableAxios.get(`/getAllRecords?table=${table}`)
         .then((response) => {
           products.unfiltered.records = response.data.records;
-          products.filtered.records = response.data.records;
           products.unfiltered.counter = response.data.count;
-          products.filtered.counter = response.data.count;
 
           if (this.debug) {
             console.log(`/getAllRecords?table=${table} response:`);
@@ -153,6 +97,7 @@ const store = {
         .finally(() => {
           products.loading = false;
           products.message = `${products.unfiltered.counter} Products in state.`;
+          this.setDefaultRecords();
         });
 
       // We want to also get Downloads in the Products view
@@ -212,5 +157,121 @@ const store = {
     }
   },
 };
+watch(
+  () => _.cloneDeep(state.filtering.activeFilters),
+  (ActiveFilters, PrevFilters) => {
+    // const deactivatedFilters = _.differenceWith(prevActive, newActiveFilters, _.isEqual);
+    const { filterGroups } = state.filtering;
+    const { activeFiltersCombined } = state.filtering;
+    // console.log('deactivatedFilters:');
+    // console.log(deactivatedFilters);
+    // const filtersCombined = [];
+    const currentFiltersMapped = _.map(ActiveFilters, _.partialRight(_.pick, ['field', 'value', 'active']));
+    // console.log(mapped);
+    currentFiltersMapped.forEach((filter) => {
+      if (activeFiltersCombined[filter.field]
+        && activeFiltersCombined[filter.field].length > 0
+        && filter.active) {
+        if (!activeFiltersCombined[filter.field].includes(filter.value)) {
+          activeFiltersCombined[filter.field] += ' || ';
+          activeFiltersCombined[filter.field] += filter.value;
+        }
+      } else if (filter.active) {
+        activeFiltersCombined[filter.field] = filter.value;
+      }
+    });
 
+    const prevFiltersMapped = _.map(PrevFilters, _.partialRight(_.pick, ['field', 'value', 'active']));
+    const removedFilters = _.differenceWith(prevFiltersMapped, currentFiltersMapped, _.isEqual);
+    // console.log(removedFilters);
+    removedFilters.forEach((filter) => {
+      if (activeFiltersCombined[filter.field].includes(`${filter.value} || `)) {
+        activeFiltersCombined[filter.field] = activeFiltersCombined[filter.field].replace(`${filter.value} || `, '');
+        // console.log('filter found WITH OR');
+        if (activeFiltersCombined[filter.field] === '') {
+          delete activeFiltersCombined[filter.field];
+        }
+      } else if (activeFiltersCombined[filter.field].includes(` || ${filter.value}`)) {
+        activeFiltersCombined[filter.field] = activeFiltersCombined[filter.field].replace(` || ${filter.value}`, '');
+        // console.log('filter found WITH OR');
+        if (activeFiltersCombined[filter.field] === '') {
+          delete activeFiltersCombined[filter.field];
+        }
+      } else if (activeFiltersCombined[filter.field].includes(filter.value)) {
+        activeFiltersCombined[filter.field] = activeFiltersCombined[filter.field].replace(filter.value, '');
+        // console.log('filter found without OR');
+        if (activeFiltersCombined[filter.field] === '') {
+          delete activeFiltersCombined[filter.field];
+        }
+      }
+      // Find the removed item in the activeFiltersCombined array.
+    });
+
+    const activeGroups = [];
+    filterGroups.forEach((item) => {
+      if (item.active) {
+        activeGroups.push(item);
+      }
+    });
+    console.log(activeGroups);
+    const widthGroup = activeGroups[0];
+    const { records } = state.products.unfiltered;
+    // let merged = [];
+    // let filtered = [];
+    // widthGroup.filterValues.forEach((filter) => {
+    //   if (filter.active) {
+    //     console.log(filter.value);
+    //     filtered = _.filter(records, (r) => filters.range(filter.value, r.fields[filter.field]));
+    //     merged = filters.mergeUnique(merged, filtered);
+    //   }
+    // });
+    // merged = filters.applyFilterGroup(widthGroup, records);
+    //
+    // console.log(filters.applyFilterGroup(widthGroup, records));
+    // console.log(merged);
+    // function mergeUnique(a, b) {
+    //   return a.concat(b.filter((v) => a.indexOf(v) === -1));
+    // }
+    // function applyFilterGroup(filterGroup, recs) {
+    //   let filtered = [];
+    //   let merged = [];
+    //   filterGroup.filterValues.forEach((filter) => {
+    //     if (filter.active) {
+    //       console.log(filter.value);
+    //       filtered = _.filter(recs, (r) => filters.range(filter.value, r.fields[filter.field]));
+    //       merged = mergeUnique(merged, filtered);
+    //       // return merged;
+    //     }
+    //     return 'No records';
+    //   });
+    //   console.log(merged);
+    //   return merged;
+    // }
+    console.log(filters.applyFilterGroup(widthGroup, records));
+    store.setFilteredRecords(filters.applyFilterGroup(widthGroup, records));
+    // mapped.forEach((item) => {
+    //   const fieldValuePair = {};
+    //   if (fieldValuePair[item.field]) {
+    //     fieldValuePair[item.field] = `${fieldValuePair[item.field]} | ${item.value}`;
+    //   } else {
+    //     fieldValuePair[item.field] = item.value;
+    //   }
+    //
+    //   filtersCombined.push(fieldValuePair);
+    //   filtersCombined.forEach((filter) => {
+    //     const keys = Object.keys(filter);
+    //     console.log(keys);
+    //   });
+    //
+    //   // for (const key in keys) {
+    //   //   if (key) {
+    //   //     console.log(key, key === item.field);
+    //   //   }
+    //   // }
+    // });
+    // console.log('filtersCombined:');
+    // console.log(filtersCombined);
+  },
+  { deep: true },
+);
 export default store;
