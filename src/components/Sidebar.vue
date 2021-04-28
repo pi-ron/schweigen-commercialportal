@@ -26,19 +26,18 @@
     </div>
   </div>
   <hr >
-  <FilterToggle></FilterToggle>
-    <FilterReset v-if="sharedState.filterActive"></FilterReset>
+  <FilterReset v-if="sharedState.filtering.filterActive"></FilterReset>
 </template>
 
 <script>
-import FilterToggle from '@/components/atoms/FilterToggle.vue';
+// import FilterToggle from '@/components/atoms/FilterToggle.vue';
 import FilterReset from '@/components/atoms/FilterReset.vue';
 
 export default {
 
   name: 'Sidebar',
   components: {
-    FilterToggle,
+    // FilterToggle,
     FilterReset,
   },
   data() {

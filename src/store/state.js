@@ -3,16 +3,15 @@ import { reactive } from 'vue';
 // import filters from '../filters';
 
 const state = reactive({
-  filterActive: false,
-  activeFilterTable: null,
-  activeFilterName: null,
-  activeFilterValue: null,
   products: {
     message: 'No Products currently in state.',
     filtered: {
       records: [],
       // records: [],
-      counter: 0,
+      // counter: 0,
+      get counter() {
+        return this.records.length;
+      },
     },
     unfiltered: {
       records: [],
@@ -40,9 +39,12 @@ const state = reactive({
     message: 'No Downloads currently in state.',
   },
   filtering: {
-    filterActive: false,
+    get filterActive() {
+      if (this.activeFilters.length > 0) {
+        return true;
+      } return false;
+    },
     activeFilters: [],
-    activeFiltersCombined: {},
     filterGroups:
       [{
         name: 'Width',
@@ -103,7 +105,7 @@ const state = reactive({
             filterGroup: 'brand-name',
           },
           {
-            display: 'Schweigen XXX',
+            display: 'Schweigen X',
             value: 'Schweigen X',
             active: false,
             filterGroup: 'brand-name',

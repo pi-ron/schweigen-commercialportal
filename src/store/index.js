@@ -47,27 +47,16 @@ const store = {
     }
     // console.log(this.state.filtering.activeFilters);
   },
-  resetFilters(table) {
-    if (table === 'Catalogue') {
-      this.state.products.filtered.records = this.state.products.unfiltered.records;
-      this.state.products.filtered.counter = 0;
-    }
-    if (table === 'Downloads') {
-      this.state.downloads.filtered.records = this.state.downloads.unfiltered.records;
-      this.state.downloads.filtered.counter = 0;
-    }
-    this.state.activeFilterName = null;
-    this.state.activeFilterValue = null;
-    this.state.filterActive = false;
-  },
-  filterRecords() {
-    const unfilteredItems = this.state.products.unfiltered;
-    const filteredItems = _.filter(
-      unfilteredItems,
-      _.matches(this.state.filtering.activeFiltersCombined),
-    );
-    console.log(filteredItems);
-    this.state.products.filtered.records = filteredItems;
+  resetFilters() {
+    const { filterGroups } = this.state.filtering;
+    this.state.filtering.activeFilters = [];
+
+    filterGroups.forEach((filterGroup, fgIndex) => {
+      filterGroup.filterValues.forEach((filterValue, fvIndex) => {
+        this.state.filtering.filterGroups[fgIndex].filterValues[fvIndex].active = false;
+        console.log(this.state.filtering.filterGroups[fgIndex].filterValues[fvIndex]);
+      });
+    });
   },
   getRecords(table) {
     if (table === 'Catalogue') {
@@ -166,72 +155,29 @@ watch(
     const { records } = state.products.unfiltered;
     // const activeGroups = [];
     let filteredRecords = [];
+    const result = [];
+    let i = 0;
     filterGroups.forEach((item) => {
       if (item.active) {
-        // activeGroups.push(item);
-        // console.log(item);
-        filteredRecords = filters.applyFilterGroup(item, records);
+        if (!result.length > 0) {
+          result[i] = filters.applyFilterGroup(item, records);
+        } else {
+          result[i] = filters.applyFilterGroup(item, result[(i - 1)]);
+        }
+
+        filteredRecords = result[result.length - 1];
+        i += 1;
+      } else {
+        // filterGroups[index].records = [];
+        delete result[i];
       }
     });
+    state.records = result;
+    // console.log(filteredRecords);
     store.setFilteredRecords(filteredRecords);
     if (ActiveFilters.length === 0) {
       store.setFilteredRecords(records);
     }
-    // console.log(activeGroups);
-    // const widthGroup = activeGroups[0];
-    // console.log(filters.applyFilterGroup(widthGroup, records));
-    //
-    // Previous attempt below.
-    //
-    // const { activeFiltersCombined } = state.filtering;
-    // console.log('deactivatedFilters:');
-    // console.log(deactivatedFilters);
-    // const filtersCombined = [];
-    // const currentFiltersMapped
-    // = _.map(ActiveFilters, _.partialRight(_.pick, ['field', 'value', 'active']));
-    // console.log(mapped);
-    // currentFiltersMapped.forEach((filter) => {
-    //   if (activeFiltersCombined[filter.field]
-    //     && activeFiltersCombined[filter.field].length > 0
-    //     && filter.active) {
-    //     if (!activeFiltersCombined[filter.field].includes(filter.value)) {
-    //       activeFiltersCombined[filter.field] += ' || ';
-    //       activeFiltersCombined[filter.field] += filter.value;
-    //     }
-    //   } else if (filter.active) {
-    //     activeFiltersCombined[filter.field] = filter.value;
-    //   }
-    // });
-
-    // const prevFiltersMapped
-    // = _.map(PrevFilters, _.partialRight(_.pick, ['field', 'value', 'active']));
-    // const removedFilters = _.differenceWith(prevFiltersMapped, currentFiltersMapped, _.isEqual);
-    // console.log(removedFilters);
-    // removedFilters.forEach((filter) => {
-    //   if (activeFiltersCombined[filter.field].includes(`${filter.value} || `)) {
-    //     activeFiltersCombined[filter.field] =
-    //     activeFiltersCombined[filter.field].replace(`${filter.value} || `, '');
-    // console.log('filter found WITH OR');
-    //   if (activeFiltersCombined[filter.field] === '') {
-    //     delete activeFiltersCombined[filter.field];
-    //   }
-    // } else if (activeFiltersCombined[filter.field].includes(` || ${filter.value}`)) {
-    //   activeFiltersCombined[filter.field]
-    //   = activeFiltersCombined[filter.field].replace(` || ${filter.value}`, '');
-    // console.log('filter found WITH OR');
-    //   if (activeFiltersCombined[filter.field] === '') {
-    //     delete activeFiltersCombined[filter.field];
-    //   }
-    // } else if (activeFiltersCombined[filter.field].includes(filter.value)) {
-    //   activeFiltersCombined[filter.field]
-    //   = activeFiltersCombined[filter.field].replace(filter.value, '');
-    // console.log('filter found without OR');
-    // if (activeFiltersCombined[filter.field] === '') {
-    //   delete activeFiltersCombined[filter.field];
-    // }
-    // }
-    // Find the removed item in the activeFiltersCombined array.
-    // });
   },
   { deep: true },
 );

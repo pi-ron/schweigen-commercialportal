@@ -23,8 +23,14 @@
         </div>
         <h2
         class="heading xxs">{{ name }}</h2>
-        <template v-if="finish">Finish: {{ finish }} <br></template>
-        <template v-if="category">Category: {{ category[0] }}</template>
+        <!-- <template v-if="finish">Finish: {{ finish }} <br></template>
+        <template v-if="category">Category: {{ category }}</template>
+        <template v-if="record['brand-name']"> Brand: {{ record['brand-name'] }}</template>
+        <template v-if="record['dimensions-width']">
+          Width: {{ record['dimensions-width'] }}</template>
+        <template v-if="record['product-type']">
+        Width: {{ record['product-type'] }}</template> -->
+
       </div>
     </router-link>
     <template>

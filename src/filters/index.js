@@ -62,7 +62,7 @@ export default {
   },
   // Returns true if match when provided single field value and filter value.
   string(value, data) { // Returns true if match
-    console.log(`@filters string(value,data): value: ${value}, data: ${data}`);
+    // console.log(`@filters string(value,data): value: ${value}, data: ${data}`);
     let targetField = '';
     targetField = data.toLowerCase();
 
@@ -71,14 +71,38 @@ export default {
   mergeUnique(a, b) {
     return a.concat(b.filter((v) => a.indexOf(v) === -1));
   },
+  applyFilterGroupV2(filterGroup, recs) {
+    console.log(`applyFilterGroupV2(filterGroup):${filterGroup}`);
+    console.log(`applyFilterGroupV2(recs):${recs}`);
+  },
   applyFilterGroup(filterGroup, recs) {
     let filtered = [];
     let merged = [];
     if (filterGroup.active) {
       filterGroup.filterValues.forEach((filter) => {
+        filtered = recs;
         if (filter.active) {
-          console.log(`Filter value: ${filter.value}`);
+          // console.log(`Filter value: ${filter.value}`);
+          // if (filterGroup.type === 'range') {
+          //   filtered = _.filter(filtered, (r) => {
+          //     const result = this.range(filter.value, r.fields[filter.field]);
+          //     return result;
+          //   });
+          // }
 
+          // if (filterGroup.type === 'range') {
+          //   filtered = _.filter(filtered, (r) => {
+          //     let result = [];
+          //     if (r.fields[filter.field]) {
+          //       if (_.isArray(r.fields[filter.field])) {
+          //         result = this.string(filter.value, r.fields[filter.field][0]);
+          //       } else {
+          //         result = this.string(filter.value, r.fields[filter.field]);
+          //       }
+          //     }
+          //     return result;
+          //   });
+          // }
           switch (filterGroup.type) {
             case 'range':
               filtered = _.filter(recs, (r) => {
