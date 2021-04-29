@@ -10,7 +10,7 @@
             </div>
             <h1 class="heading xl">Products</h1>
             <div class="breadcrumbs">
-              <a href="#" class="breadcrumbs-link">Home</a>
+              <a href="\" class="breadcrumbs-link">Home</a>
               <img src="https://assets.website-files.com/6007b4af01b37638d431e8f4/60178790556ad849c6eb2b2d_Chevron%20Right%20Light.png" alt="">
               <div class="breadcrumbs-link current">Products</div>
             </div>
@@ -24,7 +24,7 @@
       <div class="w-layout-grid grid-long-content-2 s-x-48">
         <aside class="sl-sidebar">
           <div class="sl-sidebar-sticky">
-            <Sidebar></Sidebar>
+            <ProductsSidebar></ProductsSidebar>
           </div>
         </aside>
         <div class="page-content product-categories">
@@ -60,14 +60,14 @@
 // @ is an alias to /src
 import tableLoading from '@/components/atoms/tableLoading.vue';
 import ProductListItem from '@/components/ProductListItem.vue';
-import Sidebar from '@/components/Sidebar.vue';
+import ProductsSidebar from '@/components/ProductsSidebar.vue';
 
 export default {
   name: 'Products',
   components: {
     tableLoading,
     ProductListItem,
-    Sidebar,
+    ProductsSidebar,
   },
   data() {
     return {

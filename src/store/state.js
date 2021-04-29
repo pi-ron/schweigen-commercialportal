@@ -83,6 +83,42 @@ const state = reactive({
         ],
       },
       {
+        name: 'Width',
+        field: 'dimensions-width',
+        type: 'range',
+        get active() {
+          return this.filterValues.some((f) => f.active);
+        },
+        open: true,
+        table: 'downloads',
+        filterValues: [
+          {
+            display: '600mm & below',
+            value: '0-650',
+            active: false,
+            filterGroup: 'dimensions-width',
+          },
+          {
+            display: '900mm',
+            value: '850-950',
+            active: false,
+            filterGroup: 'dimensions-width',
+          },
+          {
+            display: '1000-1200mm',
+            value: '990-1250',
+            active: false,
+            filterGroup: 'dimensions-width',
+          },
+          {
+            display: '1500-2000mm',
+            value: '1450-2050',
+            active: false,
+            filterGroup: 'dimensions-width',
+          },
+        ],
+      },
+      {
         name: 'Brand',
         field: 'brand-name',
         type: 'string',

@@ -35,7 +35,7 @@ import FilterReset from '@/components/atoms/FilterReset.vue';
 
 export default {
 
-  name: 'Sidebar',
+  name: 'DownloadsSidebar',
   components: {
     // FilterToggle,
     FilterReset,
@@ -47,7 +47,9 @@ export default {
   },
   computed: {
     filterGroups() {
-      return this.sharedState.filtering.filterGroups;
+      const { filterGroups } = this.sharedState.filtering;
+
+      return this.getTableFilters(filterGroups, this.recordsName);
     },
   },
   methods: {
@@ -56,6 +58,15 @@ export default {
     },
     filterRecords(table, field, value, filterName) {
       this.store.filterRecords(table, field, value, filterName);
+    },
+    getTableFilters(filterGroups, table) {
+      const result = [];
+      filterGroups.forEach((filterGroup) => {
+        if (filterGroup.table === table) {
+          result.push(filterGroup);
+        }
+      });
+      return result;
     },
   },
 };
