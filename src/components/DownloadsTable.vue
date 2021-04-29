@@ -35,7 +35,7 @@
       </div>
       <!-- <VPagination v-model="page"></VPagination> -->
       <div
-      class="table-row"
+      class="table-row body-text s"
       v-for="download in downloads"
       :key="download"
       >
@@ -94,7 +94,7 @@ export default {
     };
   },
   computed: {
-    loading() { return this.sharedState.products.loading; },
+    loading() { return this.sharedState.downloads.loading; },
     downloads() {
       const { records } = this.sharedState.downloads.filtered;
       return records;

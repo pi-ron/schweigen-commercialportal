@@ -83,42 +83,6 @@ const state = reactive({
         ],
       },
       {
-        name: 'Width',
-        field: 'dimensions-width',
-        type: 'range',
-        get active() {
-          return this.filterValues.some((f) => f.active);
-        },
-        open: true,
-        table: 'downloads',
-        filterValues: [
-          {
-            display: '600mm & below',
-            value: '0-650',
-            active: false,
-            filterGroup: 'dimensions-width',
-          },
-          {
-            display: '900mm',
-            value: '850-950',
-            active: false,
-            filterGroup: 'dimensions-width',
-          },
-          {
-            display: '1000-1200mm',
-            value: '990-1250',
-            active: false,
-            filterGroup: 'dimensions-width',
-          },
-          {
-            display: '1500-2000mm',
-            value: '1450-2050',
-            active: false,
-            filterGroup: 'dimensions-width',
-          },
-        ],
-      },
-      {
         name: 'Brand',
         field: 'brand-name',
         type: 'string',
@@ -191,6 +155,48 @@ const state = reactive({
         ],
       },
       {
+        name: 'Category',
+        field: 'primary-download-category',
+        type: 'string',
+        get active() {
+          return this.filterValues.some((f) => f.active);
+        },
+        open: true,
+        table: 'downloads',
+        filterValues: [
+          {
+            display: 'Undermount',
+            value: 'Undermount Rangehoods',
+            active: false,
+            filterGroup: 'primary-download-category',
+          },
+          {
+            display: 'Wallmount',
+            value: 'Wallmount',
+            active: false,
+            filterGroup: 'primary-download-category',
+          },
+          {
+            display: 'Ceiling Cassette',
+            value: 'Ceiling Cassette',
+            active: false,
+            filterGroup: 'primary-download-category',
+          },
+          {
+            display: 'Island',
+            value: 'Island',
+            active: false,
+            filterGroup: 'primary-download-category',
+          },
+          {
+            filterGroup: 'primary-download-category',
+            display: 'BBQ Alfresco',
+            value: 'BBQ Alfresco',
+            active: false,
+          },
+        ],
+      },
+      {
         name: 'Type',
         field: 'product-type',
         type: 'string',
@@ -211,6 +217,48 @@ const state = reactive({
             value: 'Onboard Rangehood',
             active: false,
             filterGroup: 'product-type',
+          },
+        ],
+      },
+      {
+        name: 'File Type',
+        field: 'file-type',
+        type: 'string',
+        get active() {
+          return this.filterValues.some((f) => f.active);
+        },
+        open: true,
+        table: 'downloads',
+        filterValues: [
+          {
+            display: 'DWG',
+            value: 'DWG',
+            active: false,
+            filterGroup: 'file-type',
+          },
+          {
+            display: 'STP',
+            value: 'STP',
+            active: false,
+            filterGroup: 'file-type',
+          },
+          {
+            display: 'PDF',
+            value: 'PDF',
+            active: false,
+            filterGroup: 'file-type',
+          },
+          {
+            display: 'DOC',
+            value: 'DOC',
+            active: false,
+            filterGroup: 'file-type',
+          },
+          {
+            display: 'XLSX',
+            value: 'LSX',
+            active: false,
+            filterGroup: 'file-type',
           },
         ],
       },

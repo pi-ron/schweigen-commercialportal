@@ -48,7 +48,6 @@ export default {
   computed: {
     filterGroups() {
       const { filterGroups } = this.sharedState.filtering;
-
       return this.getTableFilters(filterGroups, this.recordsName);
     },
   },

@@ -13,19 +13,23 @@ const airtableAxios = axios.create({
 });
 
 const store = {
-  debug: false,
+  debug: true,
   state,
   paginateRecords() {
 
+  },
+  setActiveRecordsName(recordsName) {
+    this.state.activeRecordsName = recordsName;
   },
   setCurrentProduct(product) {
     this.state.currentProduct = product;
   },
   setDefaultRecords() {
-    this.state.products.filtered.records = this.state.products.unfiltered.records;
+    const unfiltered = this.state[this.state.activeRecordsName].unfiltered.records;
+    this.state[this.state.activeRecordsName].filtered.records = unfiltered;
   },
   setFilteredRecords(records) {
-    this.state.products.filtered.records = records;
+    this.state[this.state.activeRecordsName].filtered.records = records;
   },
   activateFilter(filter) {
     const { activeFilters } = this.state.filtering;
@@ -96,13 +100,13 @@ const store = {
       airtableAxios.get('/getAllRecords?table=Downloads')
         .then((response) => {
           downloads.unfiltered.records = response.data.records;
-          downloads.filtered.records = response.data.records;
+          // downloads.filtered.records = response.data.records;
           downloads.unfiltered.counter = response.data.count;
-          downloads.filtered.counter = response.data.count;
-
+          // downloads.filtered.counter = response.data.count;
+          console.log(response.data.records);
           if (this.debug) {
             console.log('/getAllRecords?table=Downloads response:');
-            console.log(response.data);
+            // console.log(response.data);
           }
           if (response.offset) {
             downloads.unfiltered.offset = response.offset;
@@ -125,6 +129,7 @@ const store = {
       }
 
       const { downloads } = this.state;
+      // console.log(downloads);
       airtableAxios.get(`/getAllRecords?table=${table}`)
         .then((response) => {
           downloads.unfiltered.records = response.data.records;
@@ -134,7 +139,7 @@ const store = {
 
           if (this.debug) {
             console.log(`/getAllRecords?table=${table} response:`);
-            console.log(response.data);
+            // console.log(response.data);
           }
           if (response.offset) {
             downloads.unfiltered.offset = response.offset;
@@ -145,7 +150,11 @@ const store = {
           downloads.error = error;
           downloads.errored = true;
         })
-        .finally(() => { downloads.loading = false; });
+        .finally(() => {
+          // downloads.loading = false;
+          // console.log(downloads);
+          downloads.loading = false;
+        });
     }
   },
 };
@@ -155,7 +164,7 @@ watch(
   (ActiveFilters) => {
     // const deactivatedFilters = _.differenceWith(prevActive, newActiveFilters, _.isEqual);
     const { filterGroups } = state.filtering;
-    const { records } = state.products.unfiltered;
+    const { records } = state[state.activeRecordsName].unfiltered;
     // const activeGroups = [];
     let filteredRecords = [];
     const result = [];

@@ -59,11 +59,11 @@ export default {
     };
   },
   computed: {
-    loading() { return this.sharedState.products.loading; },
-    downloads() {
-      const { records } = this.sharedState.downloads.unfiltered;
-      return records;
-    },
+    loading() { return this.sharedState.downloads.loading; },
+    // downloads() {
+    //   const { records } = this.sharedState.downloads.unfiltered;
+    //   return records;
+    // },
   },
 };
 </script>

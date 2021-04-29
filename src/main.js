@@ -2,21 +2,21 @@ import { createApp } from 'vue';
 import axios from 'axios';
 import mitt from 'mitt';
 import App from './App.vue';
-import productsRouter from './router/products';
+// import productsRouter from './router/products';
 import downloadsRouter from './router/downloads';
 import store from './store';
 import './assets/css/sch-commercialportal-font.css';
 
 const emitter = mitt();
 
-const productsApp = createApp(App);
-productsApp.use(productsRouter);
-productsApp.config.globalProperties.table = 'Catalogue';
-productsApp.config.globalProperties.recordsName = 'products';
-productsApp.config.globalProperties.store = store;
-productsApp.config.globalProperties.emitter = emitter;
-productsApp.config.globalProperties.axios = axios;
-productsApp.mount('#products');
+// const productsApp = createApp(App);
+// productsApp.use(productsRouter);
+// productsApp.config.globalProperties.table = 'Catalogue';
+// productsApp.config.globalProperties.recordsName = 'products';
+// productsApp.config.globalProperties.store = store;
+// productsApp.config.globalProperties.emitter = emitter;
+// productsApp.config.globalProperties.axios = axios;
+// productsApp.mount('#products');
 
 const downloadsApp = createApp(App);
 downloadsApp.use(downloadsRouter);

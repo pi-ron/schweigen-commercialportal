@@ -8,6 +8,7 @@ export default {
   name: 'App',
   mounted() {
     this.store.getRecords(this.table);
+    this.store.setActiveRecordsName(this.recordsName);
   },
 };
 </script>
