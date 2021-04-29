@@ -1,7 +1,7 @@
 <template>
   <div class="tableHeader">
     {{ text }}
-  
+
     <div class="sortControls" v-if="sortable">
       <TableSorterIcon direction="asc" sortType="alphabetically"></TableSorterIcon>
       <TableSorterIcon direction="dsc" sortType="alphabetically"></TableSorterIcon>
@@ -10,24 +10,24 @@
 </template>
 
 <script>
-import TableSorterIcon from './TableSorterIcon.vue'
+import TableSorterIcon from './TableSorterIcon.vue';
 
 export default {
 
   name: 'TableColHeader',
-    components: {
-      TableSorterIcon
-    },
+  components: {
+    TableSorterIcon,
+  },
   props: {
     text: String,
     sortType: String,
-    sortable: Boolean
+    sortable: Boolean,
   },
   data() {
     return {
-      class: "button small secondary w-inline-block"
+      class: 'button small secondary w-inline-block',
     };
-  }
+  },
 };
 </script>
 

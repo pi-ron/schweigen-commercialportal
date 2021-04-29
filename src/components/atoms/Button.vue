@@ -1,5 +1,5 @@
 <template>
-  <a v-bind:class="size, type" class="button w-inline-block" v-bind:href="href">
+  <a v-bind:class="(size, type)" class="button w-inline-block" v-bind:href="href">
       <div class="button-text">
           {{ text }}
       </div>
@@ -13,26 +13,26 @@ export default {
 
   data() {
     return {
-      class: "button small secondary w-inline-block"
+      class: 'button small secondary w-inline-block',
     };
   },
   props: {
     href: {
       type: String, // String, Number, Boolean, Function, Object, Array
       required: true,
-      default: "#",
+      default: '#',
     },
     size: {
       type: String,
-      default: "large"
+      default: 'large',
     },
     type: {
       type: String,
-      default: "default"
-    },    
+      default: 'default',
+    },
     text: {
-      default: "Download"
-    }
+      default: 'Download',
+    },
   },
 };
 </script>

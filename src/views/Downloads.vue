@@ -38,26 +38,13 @@
               :key="download">
                 {{ download.fields['display-name'] }}
               </div>
-                <!-- <ProductListItem
-                  v-for="product in sharedState.products.filtered.records"
-                  role="listitem"
-                  :key="product"
-                  :record="product.fields"
-                  v-bind:name="product.fields['display-name']"
-                  v-bind:model="product.fields.name"
-                  v-bind:finish="product.fields.finish"
-                  v-bind:category="product.fields['product-category-name']"
-                  v-bind:image="product.fields['deep-etched-product-image']"
-                  v-bind:record_id="product.id"
-                  >
-                </ProductListItem> -->
-
+            </div>
           </div>
+          <DownloadsTable></DownloadsTable>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -65,12 +52,14 @@
 // import FileType from '@/components/atoms/FileType.vue';
 // import { FileCad } from 'mdue';
 import tableLoading from '@/components/atoms/tableLoading.vue';
+import DownloadsTable from '@/components/DownloadsTable.vue';
 import DownloadsSidebar from '@/components/DownloadsSidebar.vue';
 
 export default {
   name: 'Downloads',
   components: {
     tableLoading,
+    DownloadsTable,
     DownloadsSidebar,
   },
   data() {

@@ -2,7 +2,12 @@
   <div class="table">
     <div class="table-head">
       <div class="table-col">
-        <TableColHeader  :sortable="true" @sortBy="sortType" text="Names" class="text-left"></TableColHeader>
+        <TableColHeader
+        :sortable="true"
+        @sortBy="sortType"
+        text="Names"
+        class="text-left">
+        </TableColHeader>
       </div>
       <div class="table-col">
         <TableColHeader  :sortable="false"  text="Size" class="text-center"></TableColHeader>
@@ -29,21 +34,31 @@
           <span class="loadingSpan"></span>
         </div>
       </div>
-      <div class="table-row"  v-for="download in downloads"  v-if="!loading">
+      <div
+      class="table-row"
+      v-for="download in downloads"
+      :key="download"
+      >
 
         <div class="table-col text-left">
           <span>{{ download.fields["display-name"] }}</span>
         </div>
         <div class="table-col">
 
-          <!-- <FileSize v-if="download.fields.filesize" v-bind:size="download.fields.filesize" v-bind:url="download.fields.file"></Filesize> -->
-          {{download.fields.filesize}}
+          <FileSize
+          v-if="download.fields.filesize"
+          v-bind:size="download.fields.filesize"
+          v-bind:url="download.fields.file"></Filesize>
+          <!-- {{download.fields.filesize}} -->
         </div>
         <div class="table-col">
           <FileType v-bind:url="download.fields['computed-download-url']"></FileType>
         </div>
         <div class="table-col">
-          <Button v-bind:href="download.fields['computed-download-url']" size="small" type="secondary"></Button>
+          <Button
+          v-bind:href="download.fields['computed-download-url']"
+          size="small"
+          type="secondary"></Button>
         </div>
       </div>
     </div>
@@ -56,7 +71,7 @@ import Button from './atoms/Button.vue';
 import TableColHeader from './atoms/TableColHeader.vue';
 import FileSize from './atoms/FileSize.vue';
 import FileType from './atoms/FileType.vue';
-import slug from './atoms/slug.vue';
+// import slug from './atoms/slug.vue';
 
 export default {
 
@@ -75,7 +90,7 @@ export default {
     TableColHeader,
     FileSize,
     FileType,
-    slug,
+    // slug,
   },
   emits: ['sortBy'],
   methods: {
