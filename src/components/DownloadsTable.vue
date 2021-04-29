@@ -3,20 +3,19 @@
     <div class="table-head">
       <div class="table-col">
         <TableColHeader
-        :sortable="true"
-        @sortBy="sortType"
-        text="Names"
-        class="text-left">
-        </TableColHeader>
+        :sortable="true" @sortBy="sortType" text="Names" class="text-left"></TableColHeader>
       </div>
       <div class="table-col">
-        <TableColHeader  :sortable="false"  text="Size" class="text-center"></TableColHeader>
+        <TableColHeader
+        :sortable="false"  text="Size" class="text-center"></TableColHeader>
       </div>
       <div class="table-col">
-        <TableColHeader  :sortable="false" text="Type" class="text-center"></TableColHeader>
+        <TableColHeader
+        :sortable="false" text="Type" class="text-center"></TableColHeader>
       </div>
       <div class="table-col">
-        <TableColHeader  :sortable="false" text="Download" class="text-center"></TableColHeader>
+        <TableColHeader
+        :sortable="false" text="Download" class="text-center"></TableColHeader>
       </div>
     </div>
     <div class="table-body">
@@ -34,27 +33,29 @@
           <span class="loadingSpan"></span>
         </div>
       </div>
+      <!-- <VPagination v-model="page"></VPagination> -->
       <div
       class="table-row"
       v-for="download in downloads"
       :key="download"
       >
 
-        <div class="table-col text-left">
+        <div class="table-col t-a-l">
           <span>{{ download.fields["display-name"] }}</span>
         </div>
-        <div class="table-col">
+        <div class="table-col t-a-c">
 
           <FileSize
           v-if="download.fields.filesize"
           v-bind:size="download.fields.filesize"
           v-bind:url="download.fields.file"></Filesize>
-          <!-- {{download.fields.filesize}} -->
+
+         <!-- {{download.fields.filesize}} -->
         </div>
-        <div class="table-col">
+        <div class="table-col t-a-c">
           <FileType v-bind:url="download.fields['computed-download-url']"></FileType>
         </div>
-        <div class="table-col">
+        <div class="table-col t-a-c">
           <Button
           v-bind:href="download.fields['computed-download-url']"
           size="small"
@@ -66,7 +67,8 @@
 </template>
 
 <script>
-
+// import VPagination from '@hennge/vue3-pagination';
+import '@hennge/vue3-pagination/dist/vue3-pagination.css';
 import Button from './atoms/Button.vue';
 import TableColHeader from './atoms/TableColHeader.vue';
 import FileSize from './atoms/FileSize.vue';
@@ -76,21 +78,27 @@ import FileType from './atoms/FileType.vue';
 export default {
 
   name: 'DownloadsTable',
-  data() {
-    return {
-      columns: ['display-name', 'type', 'filesize', 'file.url'],
-    };
-  },
-  props: {
-    downloads: Object,
-    loading: Boolean,
-  },
   components: {
     Button,
     TableColHeader,
     FileSize,
     FileType,
+    // VPagination,
     // slug,
+  },
+  data() {
+    return {
+      sharedState: this.store.state,
+      activeFilters: this.store.state.filtering.activeFilters,
+      columns: ['display-name', 'type', 'filesize', 'file.url'],
+    };
+  },
+  computed: {
+    loading() { return this.sharedState.products.loading; },
+    downloads() {
+      const { records } = this.sharedState.downloads.filtered;
+      return records;
+    },
   },
   emits: ['sortBy'],
   methods: {

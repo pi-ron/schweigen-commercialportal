@@ -15,6 +15,9 @@ const airtableAxios = axios.create({
 const store = {
   debug: false,
   state,
+  paginateRecords() {
+
+  },
   setCurrentProduct(product) {
     this.state.currentProduct = product;
   },
@@ -54,7 +57,7 @@ const store = {
     filterGroups.forEach((filterGroup, fgIndex) => {
       filterGroup.filterValues.forEach((filterValue, fvIndex) => {
         this.state.filtering.filterGroups[fgIndex].filterValues[fvIndex].active = false;
-        console.log(this.state.filtering.filterGroups[fgIndex].filterValues[fvIndex]);
+        // console.log(this.state.filtering.filterGroups[fgIndex].filterValues[fvIndex]);
       });
     });
   },

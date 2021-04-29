@@ -2,21 +2,21 @@
   <div class="tableHeader">
     {{ text }}
 
-    <div class="sortControls" v-if="sortable">
+    <!-- <div class="sortControls" v-if="sortable">
       <TableSorterIcon direction="asc" sortType="alphabetically"></TableSorterIcon>
       <TableSorterIcon direction="dsc" sortType="alphabetically"></TableSorterIcon>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import TableSorterIcon from './TableSorterIcon.vue';
+// import TableSorterIcon from './TableSorterIcon.vue';
 
 export default {
 
   name: 'TableColHeader',
   components: {
-    TableSorterIcon,
+    // TableSorterIcon,
   },
   props: {
     text: String,

@@ -3,7 +3,11 @@
   <template v-if="!loadingFileSize && !fileSizeErrored">
     <span>{{ humanSize }}</span>
   </template>
-  <template v-if="loadingFileSize && !fileSizeErrored"><Spinner></Spinner></template>
+  <template v-if="loadingFileSize && !fileSizeErrored">
+    <span class="spinner">
+      <Spinner></Spinner>
+    </span>
+  </template>
   <template v-if="loadingFileSize && fileSizeErrored">File size error...</template>
 </template>
 
@@ -36,7 +40,7 @@ export default {
         this.filesize = response.data.headers['content-length'];
         this.loadingFileSize = false;
         this.humanSize = this.humanFileSize(this.filesize);
-        console.log(response);
+        // console.log(response);
       }, (error) => {
         console.log(error);
         this.loadingFileSize = false;
@@ -48,14 +52,14 @@ export default {
         this.filesize = response.headers['content-length'];
         this.loadingFileSize = false;
         this.humanSize = this.humanFileSize(this.filesize);
-        console.log(response);
+        // console.log(response);
       }, (error) => {
         console.log(error);
         this.loadingFileSize = false;
         this.fileSizeErrored = true;
       });
     }
-    console.log(this.hostedOn);
+    // console.log(this.hostedOn);
   },
   mounted() {
     // console.log(this.loadingFileSize);
@@ -102,4 +106,8 @@ export default {
 </script>
 
 <style lang="css" scoped>
+  .spinner {
+    display:block;
+    margin:0 auto;
+  }
 </style>

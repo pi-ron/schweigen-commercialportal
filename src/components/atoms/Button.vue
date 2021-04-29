@@ -1,5 +1,5 @@
 <template>
-  <a v-bind:class="(size, type)" class="button w-inline-block" v-bind:href="href">
+  <a v-bind:class="classes" class="button w-inline-block" v-bind:href="href">
       <div class="button-text">
           {{ text }}
       </div>
@@ -15,6 +15,18 @@ export default {
     return {
       class: 'button small secondary w-inline-block',
     };
+  },
+  computed: {
+    classes() {
+      let classes = '';
+      if (this.type) {
+        classes += ` ${this.type}`;
+      }
+      if (this.size) {
+        classes += ` ${this.size}`;
+      }
+      return classes;
+    },
   },
   props: {
     href: {

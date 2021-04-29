@@ -30,17 +30,7 @@
         <div class="page-content product-categories">
 <!--          {{ activeFilters }}-->
           <tableLoading v-if="loading"></tableLoading>
-          <div class="w-dyn-list" v-if="!loading">
-            <div role="list" class="teaser-grid large products-list w-dyn-items">
-              <div
-              class="download-item"
-              v-for="download in sharedState.downloads.filtered.records"
-              :key="download">
-                {{ download.fields['display-name'] }}
-              </div>
-            </div>
-          </div>
-          <DownloadsTable></DownloadsTable>
+          <DownloadsTable v-if="!loading"></DownloadsTable>
         </div>
       </div>
     </div>
