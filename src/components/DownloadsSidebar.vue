@@ -5,6 +5,27 @@
       <div class="heading xs">Filters</div>
     </div>
   </div>
+  <div class="filter-container">
+    <div class="w-form">
+      <form id="email-form" name="email-form" data-name="Email Form" class="form">
+        <div class="input-icon-wrapper">
+          <input type="text" class="input small icon-right w-input"
+          maxlength="256"
+          v-on:input="updateNameFilter($event.target.value)"
+          name="Filter-name"
+          data-name="Filter-name"
+          placeholder="Filter by name" id="Filter-name">
+          <div class="material-icons icon-input-right"></div>
+        </div>
+      </form>
+      <div class="w-form-done">
+        <div>Thank you! Your submission has been received!</div>
+      </div>
+      <div class="w-form-fail">
+        <div>Oops! Something went wrong while submitting the form.</div>
+      </div>
+    </div>
+  </div>
   <div class="filter-container" v-for="filterGroup in filterGroups" :key="filterGroup.name">
     <div class="filter-trigger">
       <img src="https://assets.website-files.com/6007b4af01b37638d431e8f4/601890cb6ba8ee0877501a94_Filter-Minus.svg"
@@ -66,6 +87,9 @@ export default {
         }
       });
       return result;
+    },
+    updateNameFilter(value) {
+      this.store.filterByName(value);
     },
   },
 };

@@ -18,6 +18,32 @@ const store = {
   paginateRecords() {
 
   },
+  filterByName(value) {
+    const result = {};
+
+    const items = this.state[this.state.activeRecordsName].unfiltered.records;
+
+    if (this.state.activeRecordsName === 'products') {
+      Object.keys(items).forEach((key) => {
+        const item = items[key];
+        const displayName = item.fields.name.toLowerCase();
+        if (displayName.includes(value.toLowerCase())) {
+          result[key] = item;
+        }
+      });
+    } else {
+      Object.keys(items).forEach((key) => {
+        const item = items[key];
+        const displayName = item.fields['display-name'].toLowerCase();
+        if (displayName.includes(value.toLowerCase())) {
+          result[key] = item;
+        }
+      });
+    }
+
+    // console.log(result);
+    this.state[this.state.activeRecordsName].filtered.records = result;
+  },
   setActiveRecordsName(recordsName) {
     this.state.activeRecordsName = recordsName;
   },
