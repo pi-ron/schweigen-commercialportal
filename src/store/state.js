@@ -152,6 +152,12 @@ const state = reactive({
             value: 'BBQ Alfresco',
             active: false,
           },
+          {
+            filterGroup: 'product-category-name',
+            display: 'Silent Exhaust Fans',
+            value: 'Silent Exhaust Fans',
+            active: false,
+          },
         ],
       },
       {

@@ -34,7 +34,7 @@
             <div role="list" class="teaser-grid large products-list w-dyn-items">
 
                 <ProductListItem
-                  v-for="product in sharedState.products.filtered.records"
+                  v-for="product in products"
                   role="listitem"
                   :key="product"
                   :record="product.fields"
@@ -78,8 +78,12 @@ export default {
   computed: {
     loading() { return this.sharedState.products.loading; },
     products() {
-      const { records } = this.sharedState.products.unfiltered;
-      return records;
+      const { records } = this.sharedState.products.filtered;
+
+      // eslint-disable-next-line max-len
+      const sorted = records.sort((a, b) => parseFloat(a.fields.order) - parseFloat(b.fields.order));
+
+      return sorted;
     },
   },
   mounted() {
