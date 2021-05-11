@@ -152,12 +152,6 @@ const state = reactive({
             value: 'BBQ Alfresco',
             active: false,
           },
-          {
-            filterGroup: 'product-category-name',
-            display: 'Silent Exhaust Fans',
-            value: 'Silent Exhaust Fans',
-            active: false,
-          },
         ],
       },
       {
@@ -223,6 +217,12 @@ const state = reactive({
             value: 'Onboard Rangehood',
             active: false,
             filterGroup: 'product-type',
+          },
+          {
+            filterGroup: 'product-type',
+            display: 'Silent Exhaust Fan',
+            value: 'Silent Exhaust Fan',
+            active: false,
           },
         ],
       },
