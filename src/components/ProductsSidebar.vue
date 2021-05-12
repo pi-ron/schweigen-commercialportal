@@ -1,9 +1,17 @@
 <template>
-  <div class="filter-heading s-m-b-32">
+  <div class="filter-heading s-m-b-0">
     <div class="text-icon-wrapper">
       <div class="schweigen-commercial-icons icon-left l c-t-primary-70"></div>
       <div class="heading xs">Filters</div>
     </div>
+  </div>
+  <div class="filter-heading s-m-b-16">
+    <span v-if="showingAllRecords" class="body-text s">
+      Showing all products ({{allRecordsCount}})
+    </span>
+    <span v-if="!showingAllRecords" class="body-text s">
+      Showing {{filteredRecordsCount}} of {{allRecordsCount}} products
+    </span>
   </div>
   <div class="filter-container">
     <div class="w-form">
@@ -46,7 +54,6 @@
       </button>
     </div>
   </div>
-  <hr >
   <FilterReset v-if="sharedState.filtering.filterActive"></FilterReset>
 </template>
 
@@ -71,6 +78,17 @@ export default {
       const { filterGroups } = this.sharedState.filtering;
 
       return this.getTableFilters(filterGroups, this.recordsName);
+    },
+    allRecordsCount() {
+      return this.sharedState[this.sharedState.activeRecordsName].unfiltered.records.length;
+    },
+    filteredRecordsCount() {
+      return this.sharedState[this.sharedState.activeRecordsName].filtered.records.length;
+    },
+    showingAllRecords() {
+      if (this.allRecordsCount > this.filteredRecordsCount) {
+        return false;
+      } return true;
     },
   },
   methods: {

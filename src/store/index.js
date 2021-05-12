@@ -42,6 +42,7 @@ const store = {
     }
 
     // console.log(result);
+    result.sort((a, b) => parseFloat(a.fields.order) - parseFloat(b.fields.order));
     this.state[this.state.activeRecordsName].filtered.records = result;
   },
   setActiveRecordsName(recordsName) {
@@ -52,9 +53,11 @@ const store = {
   },
   setDefaultRecords() {
     const unfiltered = this.state[this.state.activeRecordsName].unfiltered.records;
+    unfiltered.sort((a, b) => parseFloat(a.fields.order) - parseFloat(b.fields.order));
     this.state[this.state.activeRecordsName].filtered.records = unfiltered;
   },
   setFilteredRecords(records) {
+    records.sort((a, b) => parseFloat(a.fields.order) - parseFloat(b.fields.order));
     this.state[this.state.activeRecordsName].filtered.records = records;
   },
   activateFilter(filter) {

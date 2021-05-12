@@ -79,11 +79,7 @@ export default {
     loading() { return this.sharedState.products.loading; },
     products() {
       const { records } = this.sharedState.products.filtered;
-
-      // eslint-disable-next-line max-len
-      const sorted = records.sort((a, b) => parseFloat(a.fields.order) - parseFloat(b.fields.order));
-
-      return sorted;
+      return records;
     },
   },
   mounted() {

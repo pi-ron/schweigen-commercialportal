@@ -28,9 +28,10 @@
            <div class="product-hero-wrapper">
             <img :src="image" loading="lazy" :alt="name" class="product-hero"></div>
             <div class="product-thumbnails">
+              <!-- <img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="product-thumbnail">
               <img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="product-thumbnail">
-              <img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="product-thumbnail">
-              <img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="product-thumbnail"></div>
+              <img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="product-thumbnail"> -->
+              </div>
           </div>
         </div>
       </div>

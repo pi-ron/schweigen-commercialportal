@@ -68,12 +68,16 @@ export default {
 
     return targetField.includes(value.toLowerCase());
   },
+  // Returns true if match when provided single field value and filter value.
+  stringArray(value, data) { // Returns true if match
+    // console.log(`@filters string(value,data): value: ${value}, data: ${data}`);
+    let targetField = '';
+    targetField = data.toString().toLowerCase();
+
+    return targetField.includes(value.toLowerCase());
+  },
   mergeUnique(a, b) {
     return a.concat(b.filter((v) => a.indexOf(v) === -1));
-  },
-  applyFilterGroupV2(filterGroup, recs) {
-    console.log(`applyFilterGroupV2(filterGroup):${filterGroup}`);
-    console.log(`applyFilterGroupV2(recs):${recs}`);
   },
   applyFilterGroup(filterGroup, recs) {
     let filtered = [];
@@ -82,27 +86,6 @@ export default {
       filterGroup.filterValues.forEach((filter) => {
         filtered = recs;
         if (filter.active) {
-          // console.log(`Filter value: ${filter.value}`);
-          // if (filterGroup.type === 'range') {
-          //   filtered = _.filter(filtered, (r) => {
-          //     const result = this.range(filter.value, r.fields[filter.field]);
-          //     return result;
-          //   });
-          // }
-
-          // if (filterGroup.type === 'range') {
-          //   filtered = _.filter(filtered, (r) => {
-          //     let result = [];
-          //     if (r.fields[filter.field]) {
-          //       if (_.isArray(r.fields[filter.field])) {
-          //         result = this.string(filter.value, r.fields[filter.field][0]);
-          //       } else {
-          //         result = this.string(filter.value, r.fields[filter.field]);
-          //       }
-          //     }
-          //     return result;
-          //   });
-          // }
           switch (filterGroup.type) {
             case 'range':
               filtered = _.filter(recs, (r) => {
@@ -114,7 +97,10 @@ export default {
               filtered = _.filter(recs, (r) => {
                 let result = [];
                 if (r.fields[filter.field]) {
-                  if (_.isArray(r.fields[filter.field])) {
+                  if (r.fields[filter.field].length > 0
+                    && _.isArray(r.fields[filter.field])) {
+                    result = this.stringArray(filter.value, r.fields[filter.field]);
+                  } else if (_.isArray(r.fields[filter.field])) {
                     result = this.string(filter.value, r.fields[filter.field][0]);
                   } else {
                     result = this.string(filter.value, r.fields[filter.field]);
