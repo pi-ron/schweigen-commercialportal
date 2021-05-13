@@ -47,8 +47,114 @@ const state = reactive({
     activeFilters: [],
     filterGroups:
       [{
+        name: 'Features - Perimeter Aspiration',
+        field: 'perimeter-aspiration',
+        groupType: 'multiField',
+        multiFieldFieldGroupName: 'Features',
+        multiFieldFieldGroupSlug: 'features',
+        type: 'switch',
+        get active() {
+          return this.filterValues.some((f) => f.active);
+        },
+        open: true,
+        table: 'products',
+        filterValues: [
+          {
+            display: 'Perimeter Aspiration',
+            value: 'true',
+            active: false,
+            filterGroup: 'perimeter-aspiration',
+          },
+        ],
+      },
+      {
+        name: 'Features - Balanced Aspiration',
+        field: 'balanced-aspiration',
+        groupType: 'multiField',
+        multiFieldFieldGroupName: 'Features',
+        multiFieldFieldGroupSlug: 'features',
+        type: 'switch',
+        get active() {
+          return this.filterValues.some((f) => f.active);
+        },
+        open: true,
+        table: 'products',
+        filterValues: [
+          {
+            display: 'Balanced Aspiration',
+            value: 'true',
+            active: false,
+            filterGroup: 'balanced-aspiration',
+          },
+        ],
+      },
+      {
+        name: 'Features - Variable Speed Levels',
+        field: 'variable-speed-levels',
+        groupType: 'multiField',
+        multiFieldFieldGroupName: 'Features',
+        multiFieldFieldGroupSlug: 'features',
+        type: 'switch',
+        get active() {
+          return this.filterValues.some((f) => f.active);
+        },
+        open: true,
+        table: 'products',
+        filterValues: [
+          {
+            display: 'Variable Speed Levels',
+            value: 'true',
+            active: false,
+            filterGroup: 'variable-speed-levels',
+          },
+        ],
+      },
+      {
+        name: 'Features - Remote Control',
+        field: 'remote-control',
+        groupType: 'multiField',
+        multiFieldFieldGroupName: 'Features',
+        multiFieldFieldGroupSlug: 'features',
+        type: 'switch',
+        get active() {
+          return this.filterValues.some((f) => f.active);
+        },
+        open: true,
+        table: 'products',
+        filterValues: [
+          {
+            display: 'Remote Control',
+            value: 'true',
+            active: false,
+            filterGroup: 'remote-control',
+          },
+        ],
+      },
+      {
+        name: 'Features - Integrated Lighting',
+        field: 'led-lights',
+        groupType: 'multiField',
+        multiFieldFieldGroupName: 'Features',
+        multiFieldFieldGroupSlug: 'features',
+        type: 'switch',
+        get active() {
+          return this.filterValues.some((f) => f.active);
+        },
+        open: true,
+        table: 'products',
+        filterValues: [
+          {
+            display: 'Integrated Lighting',
+            value: 'true',
+            active: false,
+            filterGroup: 'led-lights',
+          },
+        ],
+      },
+      {
         name: 'Width',
         field: 'dimensions-width',
+        groupType: 'singleField',
         type: 'range',
         get active() {
           return this.filterValues.some((f) => f.active);
@@ -85,6 +191,7 @@ const state = reactive({
       {
         name: 'Brand',
         field: 'brand-name',
+        groupType: 'singleField',
         type: 'string',
         get active() {
           return this.filterValues.some((f) => f.active);
@@ -115,6 +222,7 @@ const state = reactive({
       {
         name: 'Category',
         field: 'product-category-name',
+        groupType: 'singleField',
         type: 'string',
         get active() {
           return this.filterValues.some((f) => f.active);
@@ -157,6 +265,7 @@ const state = reactive({
       {
         name: 'Category',
         field: 'primary-download-category',
+        groupType: 'singleField',
         type: 'string',
         get active() {
           return this.filterValues.some((f) => f.active);
@@ -199,6 +308,7 @@ const state = reactive({
       {
         name: 'Type',
         field: 'product-type',
+        groupType: 'singleField',
         type: 'string',
         get active() {
           return this.filterValues.some((f) => f.active);
@@ -229,6 +339,7 @@ const state = reactive({
       {
         name: 'File Type',
         field: 'file-type',
+        groupType: 'singleField',
         type: 'string',
         get active() {
           return this.filterValues.some((f) => f.active);
@@ -271,6 +382,7 @@ const state = reactive({
       {
         name: 'Finish',
         field: 'finish',
+        groupType: 'singleField',
         type: 'string',
         get active() {
           return this.filterValues.some((f) => f.active);
@@ -295,156 +407,6 @@ const state = reactive({
             value: 'White',
             active: false,
             filterGroup: 'finish',
-          },
-        ],
-      },
-      {
-        name: 'Features',
-        field: 'product-features-names',
-        type: 'string',
-        get active() {
-          return this.filterValues.some((f) => f.active);
-        },
-        open: true,
-        table: 'products',
-        filterValues: [
-          {
-            display: 'Balanced Aspiration',
-            value: 'Balanced Aspiration',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Classic design',
-            value: 'Classic design',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Convenient features',
-            value: 'Convenient features',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Discreet design',
-            value: 'Discreet design',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Energy-efficient',
-            value: 'Energy-efficient',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Eye-catching design',
-            value: 'Eye-catching design',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Flexible & functional',
-            value: 'Flexible & functional',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Free ducting included',
-            value: 'Free ducting included',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'High-quality construction',
-            value: 'High-quality construction',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'High-quality filters',
-            value: 'High-quality filters',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Improves indoor air quality',
-            value: 'Improves indoor air quality',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Innovative design',
-            value: 'Innovative design',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Modern design',
-            value: 'Modern design',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Modular design',
-            value: 'Modular design',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Multi-purpose ventilation',
-            value: 'Multi-purpose ventilation',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Perimeter Aspiration',
-            value: 'Perimeter Aspiration',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Powerful extraction',
-            value: 'Powerful extraction',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Powerful silent extraction',
-            value: 'Powerful silent extraction',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Simple design',
-            value: 'Simple design',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Sleek design',
-            value: 'Sleek design',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Strong lighting',
-            value: 'Strong lighting',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Unique design',
-            value: 'Unique design',
-            active: false,
-            filterGroup: 'product-features-names',
-          },
-          {
-            display: 'Warranties',
-            value: 'Warranties',
-            active: false,
-            filterGroup: 'product-features-names',
           },
         ],
       },

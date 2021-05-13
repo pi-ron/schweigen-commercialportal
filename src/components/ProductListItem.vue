@@ -23,6 +23,11 @@
         </div>
         <h2
         class="heading xxs">{{ name }}</h2>
+        <!-- <span class="body-text s">Perimiter Aspiration: {{ perimeterAspiration }}</span><br>
+        <span class="body-text s">Variable Speed Levels: {{ variableSpeedLevels }}</span><br>
+        <span class="body-text s">Balanced Aspiration: {{ balancedAspiration }}</span><br>
+        <span class="body-text s">Remote Control: {{ remoteControl }}</span><br>
+        <span class="body-text s">Integrated Lighting: {{ integratedLighting }}</span><br> -->
         <!-- <template v-if="finish">Finish: {{ finish }} <br></template>
         <template v-if="category">Category: {{ category }}</template>
         <template v-if="record['brand-name']"> Brand: {{ record['brand-name'] }}</template>
@@ -95,6 +100,21 @@ export default {
     //   }
     //   return this.active;
     // },
+    perimeterAspiration() {
+      return this.record['perimeter-aspiration'];
+    },
+    remoteControl() {
+      return this.record['remote-control'];
+    },
+    balancedAspiration() {
+      return this.record['balanced-aspiration'];
+    },
+    variableSpeedLevels() {
+      return this.record['variable-speed-levels'];
+    },
+    integratedLighting() {
+      return this.record['led-lights'];
+    },
     loading() { return this.sharedState.products.loading; },
     downloadsLoading() {
       if (this.downloads && this.downloads.loading) {

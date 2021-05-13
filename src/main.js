@@ -6,6 +6,7 @@ import productsRouter from './router/products';
 // import downloadsRouter from './router/downloads';
 import store from './store';
 import './assets/css/sch-commercialportal-font.css';
+import './assets/css/schweigen-commercial-webflow.css';
 
 const emitter = mitt();
 

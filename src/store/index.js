@@ -6,14 +6,14 @@ import filters from '@/filters';
 // import filters from '../filters';
 
 const airtableAxios = axios.create({
-  baseURL: 'https://timdaff.api.stdlib.com/sd977-frontend-api@0.1.2/airtable/',
+  baseURL: 'https://timdaff.api.stdlib.com/sd977-frontend-api@0.4.0/airtable/',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
 const store = {
-  debug: true,
+  debug: false,
   state,
   paginateRecords() {
 
@@ -133,8 +133,8 @@ const store = {
           // downloads.filtered.records = response.data.records;
           downloads.unfiltered.counter = response.data.count;
           // downloads.filtered.counter = response.data.count;
-          console.log(response.data.records);
           if (this.debug) {
+            console.log(response.data.records);
             console.log('/getAllRecords?table=Downloads response:');
             // console.log(response.data);
           }

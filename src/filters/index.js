@@ -62,11 +62,19 @@ export default {
   },
   // Returns true if match when provided single field value and filter value.
   string(value, data) { // Returns true if match
+    console.log(`@filters string(value,data): value: ${value}, data: ${data}`);
+    let targetField = '';
+    targetField = data.toString().toLowerCase();
+    console.log(targetField.includes(value.toString().toLowerCase()));
+    return targetField.includes(value.toString().toLowerCase());
+  },
+  // Returns true if match when provided single field value and filter value.
+  switch(value, data) { // Returns true if match
     // console.log(`@filters string(value,data): value: ${value}, data: ${data}`);
     let targetField = '';
-    targetField = data.toLowerCase();
-
-    return targetField.includes(value.toLowerCase());
+    console.log('targetField');
+    targetField = data;
+    return targetField === true;
   },
   // Returns true if match when provided single field value and filter value.
   stringArray(value, data) { // Returns true if match
@@ -87,6 +95,12 @@ export default {
         filtered = recs;
         if (filter.active) {
           switch (filterGroup.type) {
+            case 'switch':
+              filtered = _.filter(recs, (r) => {
+                const result = this.switch(filter.value, r.fields[filter.field]);
+                return result;
+              });
+              break;
             case 'range':
               filtered = _.filter(recs, (r) => {
                 const result = this.range(filter.value, r.fields[filter.field]);

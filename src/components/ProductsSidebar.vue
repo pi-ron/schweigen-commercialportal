@@ -34,7 +34,8 @@
       </div>
     </div>
   </div>
-  <div class="filter-container" v-for="filterGroup in filterGroups" :key="filterGroup.name">
+
+  <div class="filter-container" v-for="filterGroup in singleFilterGroups" :key="filterGroup.name">
     <div class="filter-trigger">
       <img src="https://assets.website-files.com/6007b4af01b37638d431e8f4/601890cb6ba8ee0877501a94_Filter-Minus.svg"
            loading="lazy"
@@ -54,11 +55,33 @@
       </button>
     </div>
   </div>
+<div class="filter-container">
+    <div class="filter-trigger">
+      <img src="https://assets.website-files.com/6007b4af01b37638d431e8f4/601890cb6ba8ee0877501a94_Filter-Minus.svg"
+           loading="lazy"
+           alt=""
+           class="icon-image mini filter-trigger-icon filter-open"
+           style="display: block;">
+      <div class="filters-trigger-text">Product Features</div>
+    </div>
+    <div class="filter-options filter-bar-category" style="display: block;">
+      <template  v-for="filterGroup in multiFilterGroups" :key="filterGroup.name">
+        <button
+          class="filter-option filter-button w-inline-block"
+          v-for="filter in filterGroup.filterValues"
+          :key="filter"
+          v-bind:class="{ 'filter-active': filter.active }"
+          v-on:click="activateFilter(filter)">
+          {{ filter.display }}
+        </button>
+      </template>
+    </div>
+  </div>
   <FilterReset v-if="sharedState.filtering.filterActive"></FilterReset>
 </template>
 
 <script>
-// import FilterToggle from '@/components/atoms/FilterToggle.vue';
+import _ from 'lodash';
 import FilterReset from '@/components/atoms/FilterReset.vue';
 
 export default {
@@ -74,10 +97,21 @@ export default {
     };
   },
   computed: {
-    filterGroups() {
+    singleFilterGroups() {
       const { filterGroups } = this.sharedState.filtering;
 
-      return this.getTableFilters(filterGroups, this.recordsName);
+      const result = Object.values(_.pickBy(filterGroups, (e) => _.includes(['singleField'], e.groupType)));
+
+      return this.getTableFilters(result, this.recordsName);
+    },
+    multiFilterGroups() {
+      const { filterGroups } = this.sharedState.filtering;
+
+      const multiFilterGroups = Object.values(
+        _.pickBy(filterGroups, (e) => _.includes(['multiField'], e.groupType)),
+      );
+
+      return this.getTableFilters(multiFilterGroups, this.recordsName);
     },
     allRecordsCount() {
       return this.sharedState[this.sharedState.activeRecordsName].unfiltered.records.length;
