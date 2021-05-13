@@ -41,9 +41,10 @@ const store = {
       });
     }
 
-    // console.log(result);
-    result.sort((a, b) => parseFloat(a.fields.order) - parseFloat(b.fields.order));
-    this.state[this.state.activeRecordsName].filtered.records = result;
+    const records = Object.values(result);
+    // console.log(records);
+    records.sort((a, b) => parseFloat(a.fields.order) - parseFloat(b.fields.order));
+    this.state[this.state.activeRecordsName].filtered.records = records;
   },
   setActiveRecordsName(recordsName) {
     this.state.activeRecordsName = recordsName;
