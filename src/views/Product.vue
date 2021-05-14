@@ -71,9 +71,45 @@
             <h2 class="heading l">Specifications</h2>
           </div>
           <div class="feature-content-wrapper right">
-            <p class="body-text m">Width - {{product['dimensions-width']}}mm</p>
-            <p class="body-text m">Depth - {{product['dimensions-depth']}}mm</p>
-            <p class="body-text m">Height - {{product['dimensions-height']}}mm</p>
+            <div class="w-layout-grid">
+              <div class="col">
+                <div class="feature-content-item">
+                  <h3 class="heading s c-t-primary-60">Lights + Filters</h3>
+                  <p class="body-text s">Lights - {{product['lights']}}</p>
+                  <p class="body-text s">Light Wattage - {{product['light-wattage']}}</p>
+                  <p class="body-text s">Filter Type - {{product['filter-type']}}</p>
+                  <p class="body-text s">Filter QTY - {{product['filter-qty']}}</p>
+                </div>
+                <div class="feature-content-item">
+                  <h3 class="heading s c-t-primary-60">Dimensions</h3>
+                  <p class="body-text s">Width - {{product['dimensions-width']}}mm</p>
+                  <p class="body-text s">Depth - {{product['dimensions-depth']}}mm</p>
+                  <p class="body-text s">Height - {{product['dimensions-height']}}mm</p>
+                </div>
+              </div>
+              <div class="col">
+                <div class="feature-content-item">
+                  <h3 class="heading s c-t-primary-60">Product Details</h3>
+                  <p class="body-text s">Product Code - {{product['name']}}</p>
+                  <p class="body-text s">Finish - {{product['finish']}}</p>
+                  <p class="body-text s">Fan Speed Levels - {{product['fan-speed-levels']}}</p>
+                  <p class="body-text s">Airflow -
+                    <span v-for="motor in motors" :key="motor">
+                      {{motor.fields['motor-flowrate']}}m3/h |
+                    </span>
+                  </p>
+                  <p class="body-text s">Control - {{product['control']}}</p>
+                </div>
+                <div class="feature-content-item">
+                  <h3 class="heading s c-t-primary-60">Warranties</h3>
+                  <p class="body-text s">Warranty on Motor - {{product['warranty-on-motor']}}</p>
+                  <p class="body-text s">Warranty on Canopy - {{product['warranty-on-canopy']}}</p>
+                  <p class="body-text s">Warranty on Filters -
+                    {{product['warranty-on-filters']}}</p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -183,13 +219,24 @@ export default {
     model: String,
     record_id: String,
   },
+  mounted() {
+    const motorIds = this.product['motor-option'];
+
+    motorIds.forEach((id) => {
+      this.store.getSingleRecord('Product Motors', id);
+    });
+  },
   data() {
     return {
       product: this.store.state.currentProduct,
       sharedState: this.store.state,
+      motors: this.store.state.motors.records,
     };
   },
   computed: {
+    motorsLoading() {
+      return this.sharedState.motors.loading;
+    },
     downloads() {
       const result = [];
 
@@ -253,6 +300,14 @@ export default {
 
 .text-left {
   text-align: left;
+}
+
+.feature-content-item {
+  margin-bottom:2rem;
+
+  .body-text {
+    border-bottom:1px solid #efefef;
+  }
 }
 
 </style>

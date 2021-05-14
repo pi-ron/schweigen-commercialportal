@@ -3,6 +3,10 @@ import { reactive } from 'vue';
 // import filters from '../filters';
 
 const state = reactive({
+  motors: {
+    records: [],
+    loading: true,
+  },
   products: {
     message: 'No Products currently in state.',
     filtered: {
@@ -362,18 +366,6 @@ const state = reactive({
           {
             display: 'PDF',
             value: 'PDF',
-            active: false,
-            filterGroup: 'file-type',
-          },
-          {
-            display: 'DOC',
-            value: 'DOC',
-            active: false,
-            filterGroup: 'file-type',
-          },
-          {
-            display: 'XLSX',
-            value: 'LSX',
             active: false,
             filterGroup: 'file-type',
           },

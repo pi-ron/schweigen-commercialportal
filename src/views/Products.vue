@@ -30,6 +30,14 @@
         <div class="page-content product-categories">
 <!--          {{ activeFilters }}-->
           <tableLoading v-if="loading"></tableLoading>
+          <div v-if="nilResults" class="message">
+            <h3 class="heading s">Sorry, no matching results were found.</h3>
+            <p class="heading xxs">Search Suggestions:</p>
+            <p>Unselect a filter or two to see if that helps
+            </p>
+            <p><a :click="resetFilters()" href="#">Reset all filters and start over</a>
+            </p>
+          </div>
           <div class="w-dyn-list" v-if="!loading">
             <div role="list" class="teaser-grid large products-list w-dyn-items">
 
@@ -76,6 +84,16 @@ export default {
     };
   },
   computed: {
+    nilResults() {
+      const { counter } = this.sharedState.products.filtered;
+      const { loading } = this;
+
+      if (counter === 0 && !loading) {
+        return true;
+      }
+
+      return false;
+    },
     loading() { return this.sharedState.products.loading; },
     products() {
       const { records } = this.sharedState.products.filtered;
@@ -86,9 +104,19 @@ export default {
     // this.store.state.products.filtered.records = this.store.state.products.unfiltered.records;
     // this.store.setDefaultRecords();
   },
+  methods: {
+    resetFilters() {
+      this.store.resetFilters(this.sharedState.activeFilterTable);
+    },
+  },
 };
 </script>
 
-<style lang="css">
-
+<style lang="scss">
+.message {
+  display:inline-block;
+  background:#f9f9f9;
+  padding:2rem;
+  border:1px solid #f3f3f3;
+}
 </style>

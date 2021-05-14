@@ -6,7 +6,7 @@ import filters from '@/filters';
 // import filters from '../filters';
 
 const airtableAxios = axios.create({
-  baseURL: 'https://timdaff.api.stdlib.com/sd977-frontend-api@0.4.0/airtable/',
+  baseURL: 'https://timdaff.api.stdlib.com/sd977-frontend-api@0.8.0/airtable/',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -94,6 +94,26 @@ const store = {
         // console.log(this.state.filtering.filterGroups[fgIndex].filterValues[fvIndex]);
       });
     });
+  },
+  getSingleRecord(table, id) {
+    const { motors } = this.state;
+    airtableAxios.get(`/getRecordByAirtableId?table=${table}&id=${id}`)
+      .then((response) => {
+        motors.records.push(response.data);
+
+        if (this.debug) {
+          console.log(`/getRecordByAirtableId?table=${table}&id=${id} response:`);
+          console.log(response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        motors.error = error;
+        motors.errored = true;
+      })
+      .finally(() => {
+        motors.loading = false;
+      });
   },
   getRecords(table) {
     if (table === 'Catalogue') {

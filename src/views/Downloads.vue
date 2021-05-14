@@ -30,6 +30,14 @@
         <div class="page-content product-categories">
 <!--          {{ activeFilters }}-->
           <tableLoading v-if="loading"></tableLoading>
+          <div v-if="nilResults" class="message">
+            <h3 class="heading s">Sorry, no matching results were found.</h3>
+            <p class="heading xxs">Search Suggestions:</p>
+            <p>Unselect a filter or two to see if that helps
+            </p>
+            <p><a :click="resetFilters()" href="#">Reset all filters and start over</a>
+            </p>
+          </div>
           <DownloadsTable v-if="!loading"></DownloadsTable>
         </div>
       </div>
@@ -60,10 +68,25 @@ export default {
   },
   computed: {
     loading() { return this.sharedState.downloads.loading; },
+    nilResults() {
+      const { counter } = this.sharedState.downloads.filtered;
+      const { loading } = this;
+
+      if (counter === 0 && !loading) {
+        return true;
+      }
+
+      return false;
+    },
     // downloads() {
     //   const { records } = this.sharedState.downloads.unfiltered;
     //   return records;
     // },
+  },
+  methods: {
+    resetFilters() {
+      this.store.resetFilters(this.sharedState.activeFilterTable);
+    },
   },
 };
 </script>

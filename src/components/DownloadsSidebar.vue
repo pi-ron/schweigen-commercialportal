@@ -11,7 +11,6 @@
   </div>
   <div class="filter-container">
     <div class="w-form">
-      <form id="email-form" name="email-form" data-name="Email Form" class="form">
         <div class="input-icon-wrapper">
           <input type="text" class="input small icon-right w-input"
           maxlength="256"
@@ -21,7 +20,6 @@
           placeholder="Filter by name" id="Filter-name">
           <div class="material-icons icon-input-right"></div>
         </div>
-      </form>
       <div class="w-form-done">
         <div>Thank you! Your submission has been received!</div>
       </div>
