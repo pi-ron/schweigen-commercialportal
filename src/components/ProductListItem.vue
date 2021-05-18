@@ -39,7 +39,7 @@
       </div>
     </router-link>
     <template>
-      <div v-if="downloadsLoading" class="product-list-item-downloads">
+      <div v-if="downloadsLoading && showDownloads" class="product-list-item-downloads">
         <div class="tag-02 s-m-t-8">
           <div class="tag-02-text dark">
             Downloads
@@ -48,7 +48,7 @@
         <Spinner></Spinner>
       </div>
     </template>
-      <div v-if="(downloads.items.length > 0)"
+      <div v-if="(showDownloads && downloads.items.length > 0)"
         class="product-list-item-downloads">
         <div class="tag-02 s-m-t-8">
           <div class="tag-02-text dark">
@@ -85,6 +85,7 @@ export default {
     category: Array,
     record_id: String,
     record: Object,
+    showDownloads: Boolean,
   },
   data() {
     return {

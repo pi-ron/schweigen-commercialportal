@@ -114,6 +114,7 @@ const store = {
       .finally(() => {
         motors.loading = false;
       });
+    this.state.motors.records = motors.records.sort((a, b) => parseFloat(a['motor-flowrate']) - parseFloat(b['motor-flowrate']));
   },
   getRecords(table) {
     if (table === 'Catalogue') {

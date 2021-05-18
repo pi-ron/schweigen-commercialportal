@@ -30,13 +30,63 @@
         <div class="page-content product-categories">
 <!--          {{ activeFilters }}-->
           <tableLoading v-if="loading"></tableLoading>
-          <div v-if="nilResults" class="message">
-            <h3 class="heading s">Sorry, no matching results were found.</h3>
-            <p class="heading xxs">Search Suggestions:</p>
-            <p>Unselect a filter or two to see if that helps
-            </p>
-            <p><a :click="resetFilters()" href="#">Reset all filters and start over</a>
-            </p>
+          <div v-if="nilResults">
+            <div class="nilResultsMessage">
+              <div class="s-x-48">
+                <h3 class="heading Xs">Sorry, no matching results were found.</h3>
+                <p class="heading xxs">Search Suggestions:</p>
+                <p>Unselect a filter or two to see if that helps
+                </p>
+                <p><a :click="resetFilters()" href="#">Reset all filters and start over</a>
+                </p>
+              </div>
+            </div>
+            <h2 class="heading m">Or maybe we can help, see top searches below:</h2>
+            <div class="nilResultsWrapper" v-if="!loading">
+              <h2 class="heading s ct-primary">Australia's number one selling silent rangehoods</h2>
+              <hr >
+              <div role="list" class="nilResultsList teaser-grid large products-list w-dyn-items">
+                <ProductListItem
+                v-for="product in topRangehoods"
+                role="listitem"
+                :key="product"
+                :record="product.fields"
+                v-bind:showDownloads="false"
+                v-bind:name="product.fields['display-name']"
+                v-bind:model="product.fields.name"
+                v-bind:finish="product.fields.finish"
+                v-bind:category="product.fields['product-category-name']"
+                v-bind:image="product.fields['deep-etched-product-image']"
+                v-bind:record_id="product.id"
+                >
+                </ProductListItem>
+              </div>
+              <h2 class="heading s primary">Good Design Award winners</h2>
+              <hr >
+              <div role="list" class="nilResultsList teaser-grid large products-list w-dyn-items">
+                <ProductListItem
+                v-for="product in goodDesignAwardWinners"
+                role="listitem"
+                :key="product"
+                :record="product.fields"
+                v-bind:showDownloads="false"
+                v-bind:name="product.fields['display-name']"
+                v-bind:model="product.fields.name"
+                v-bind:finish="product.fields.finish"
+                v-bind:category="product.fields['product-category-name']"
+                v-bind:image="product.fields['deep-etched-product-image']"
+                v-bind:record_id="product.id"
+                >
+                </ProductListItem>
+              </div>
+            </div>
+            <div v-for="download in consumerBrochure" :key="download">
+              <h2 class="heading s ct-primary">Consumer Products Brochure.</h2>
+              <hr >
+              <a class="product-list-item-download"
+              :href="download.fields['computed-download-url']">
+                {{ download.fields['display-name'] }}</a>
+            </div>
           </div>
           <div class="w-dyn-list" v-if="!loading">
             <div role="list" class="teaser-grid large products-list w-dyn-items">
@@ -46,6 +96,7 @@
                   role="listitem"
                   :key="product"
                   :record="product.fields"
+                  :showDownloads="true"
                   v-bind:name="product.fields['display-name']"
                   v-bind:model="product.fields.name"
                   v-bind:finish="product.fields.finish"
@@ -99,6 +150,53 @@ export default {
       const { records } = this.sharedState.products.filtered;
       return records;
     },
+    consumerBrochure() {
+      if (this.nilResults) {
+        const { records } = this.sharedState.downloads.unfiltered;
+
+        const result = [];
+        records.forEach((record) => {
+          if (record.fields['display-name'] === 'Schweigen Consumer Brochure') {
+            result.push(record);
+          }
+        });
+        return result;
+      }
+      return null;
+    },
+    topRangehoods() {
+      if (this.nilResults) {
+        const { records } = this.sharedState.products.unfiltered;
+
+        const result = [];
+        records.forEach((record) => {
+          if (record.fields.name === 'UM1170-6S' || record.fields.name === 'UM1170-9S') {
+            result.push(record);
+          }
+        });
+        return result;
+      }
+      return null;
+    },
+    goodDesignAwardWinners() {
+      if (this.nilResults) {
+        const { records } = this.sharedState.products.unfiltered;
+
+        const result = [];
+        records.forEach((record) => {
+          if (record.fields.name === 'CC-PARA2S'
+          || record.fields.name === 'CC-PARA2W'
+          || record.fields.name === 'CC-PARA3S'
+          || record.fields.name === 'CC-PARA3W'
+          || record.fields.name === 'CC-PARA4S'
+          || record.fields.name === 'CC-PARA4W') {
+            result.push(record);
+          }
+        });
+        return result;
+      }
+      return null;
+    },
   },
   mounted() {
     // this.store.state.products.filtered.records = this.store.state.products.unfiltered.records;
@@ -108,15 +206,29 @@ export default {
     resetFilters() {
       this.store.resetFilters(this.sharedState.activeFilterTable);
     },
+    // updateNameFilter(value) {
+    //   this.store.filterByName(value);
+    // },
   },
 };
 </script>
 
 <style lang="scss">
-.message {
-  display:inline-block;
-  background:#f9f9f9;
-  padding:2rem;
-  border:1px solid #f3f3f3;
+.nilResultsMessage {
+  display:block;
+  // background:#f9f9f9;
+  // padding:1rem;
+  // border:1px solid #f3f3f3;
+  margin-bottom:2rem;
+}
+.nilResultsList {
+  margin-bottom:2rem;
+}
+.nilResultsWrapper {
+  padding:2rem 0;
+  margin-bottom:2rem;
+}
+.product-categories {
+  margin-bottom:2rem;
 }
 </style>
