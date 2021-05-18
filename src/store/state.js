@@ -307,6 +307,24 @@ const state = reactive({
             value: 'BBQ Alfresco',
             active: false,
           },
+          {
+            filterGroup: 'primary-download-category',
+            display: 'Silent Exhaust Fan',
+            value: 'Silent Exhaust Fan',
+            active: false,
+          },
+          {
+            filterGroup: 'primary-download-category',
+            display: 'Silent Isodrive Motor',
+            value: 'Silent Isodrive Motor',
+            active: false,
+          },
+          {
+            filterGroup: 'primary-download-category',
+            display: 'Brochures',
+            value: 'Brochures',
+            active: false,
+          },
         ],
       },
       {
