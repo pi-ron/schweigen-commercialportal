@@ -316,7 +316,7 @@ const state = reactive({
           {
             filterGroup: 'primary-download-category',
             display: 'Silent Isodrive Motors',
-            value: 'Silent Isodrive Motors',
+            value: 'Motor',
             active: false,
           },
           {
