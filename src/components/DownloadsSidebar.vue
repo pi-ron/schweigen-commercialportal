@@ -12,9 +12,10 @@
   <div class="filter-container">
     <div class="w-form">
         <div class="input-icon-wrapper">
+          <span class="body-text s">Refactored name filter</span>
           <input type="text" class="input small icon-right w-input"
           maxlength="256"
-          v-on:input="updateNameFilter($event.target.value)"
+          v-on:input="activateNameFilter('display-name',$event.target.value)"
           name="Filter-name"
           data-name="Filter-name"
           placeholder="Filter by name" id="Filter-name">
@@ -28,7 +29,7 @@
       </div>
     </div>
   </div>
-  <div class="filter-container" v-for="filterGroup in filterGroups" :key="filterGroup.name">
+  <div class="filter-container" v-for="filterGroup in singleFilterGroups" :key="filterGroup.name">
     <div class="filter-trigger">
       <img src="https://assets.website-files.com/6007b4af01b37638d431e8f4/601890cb6ba8ee0877501a94_Filter-Minus.svg"
            loading="lazy"
@@ -52,7 +53,7 @@
 </template>
 
 <script>
-// import FilterToggle from '@/components/atoms/FilterToggle.vue';
+import _ from 'lodash';
 import FilterReset from '@/components/atoms/FilterReset.vue';
 
 export default {
@@ -72,6 +73,22 @@ export default {
       const { filterGroups } = this.sharedState.filtering;
       return this.getTableFilters(filterGroups, this.recordsName);
     },
+    singleFilterGroups() {
+      const { filterGroups } = this.sharedState.filtering;
+
+      const result = Object.values(_.pickBy(filterGroups, (e) => _.includes(['singleField'], e.groupType)));
+
+      return this.getTableFilters(result, this.recordsName);
+    },
+    multiFilterGroups() {
+      const { filterGroups } = this.sharedState.filtering;
+
+      const multiFilterGroups = Object.values(
+        _.pickBy(filterGroups, (e) => _.includes(['multiField'], e.groupType)),
+      );
+
+      return this.getTableFilters(multiFilterGroups, this.recordsName);
+    },
     allRecordsCount() {
       return this.sharedState[this.sharedState.activeRecordsName].unfiltered.records.length;
     },
@@ -88,6 +105,10 @@ export default {
     activateFilter(filter) {
       this.store.activateFilter(filter);
     },
+    // Field can be either name for products or display-name for downloads
+    activateNameFilter(field, value) {
+      this.store.activateNameFilter(field, value);
+    },
     filterRecords(table, field, value, filterName) {
       this.store.filterRecords(table, field, value, filterName);
     },
@@ -99,9 +120,6 @@ export default {
         }
       });
       return result;
-    },
-    updateNameFilter(value) {
-      this.store.filterByName(value);
     },
   },
 };

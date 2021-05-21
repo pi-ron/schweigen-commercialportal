@@ -328,6 +328,44 @@ const state = reactive({
         ],
       },
       {
+        name: 'Name',
+        field: 'display-name',
+        groupType: 'standalone',
+        type: 'string',
+        get active() {
+          return this.filterValues.some((f) => f.active);
+        },
+        open: true,
+        table: 'downloads',
+        filterValues: [
+          {
+            filterGroup: 'display-name',
+            display: null,
+            value: null,
+            active: false,
+          },
+        ],
+      },
+      {
+        name: 'Name',
+        field: 'name',
+        groupType: 'standalone',
+        type: 'string',
+        get active() {
+          return this.filterValues.some((f) => f.active);
+        },
+        open: true,
+        table: 'products',
+        filterValues: [
+          {
+            filterGroup: 'name',
+            display: null,
+            value: null,
+            active: false,
+          },
+        ],
+      },
+      {
         name: 'Type',
         field: 'product-type',
         groupType: 'singleField',

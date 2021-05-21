@@ -16,9 +16,10 @@
   <div class="filter-container">
     <div class="w-form">
         <div class="input-icon-wrapper">
+          <span class="body-text s">Refactored name filter</span>
           <input type="text" class="input small icon-right w-input"
           maxlength="256"
-          v-on:input="updateNameFilter($event.target.value)"
+          v-on:input="activateNameFilter('name',$event.target.value)"
           name="Filter-name"
           data-name="Filter-name"
           placeholder="Filter by name" id="Filter-name">
@@ -127,6 +128,10 @@ export default {
     activateFilter(filter) {
       this.store.activateFilter(filter);
     },
+    // Field can be either name for products or display-name for downloads
+    activateNameFilter(field, value) {
+      this.store.activateNameFilter(field, value);
+    },
     filterRecords(table, field, value, filterName) {
       this.store.filterRecords(table, field, value, filterName);
     },
@@ -138,9 +143,6 @@ export default {
         }
       });
       return result;
-    },
-    updateNameFilter(value) {
-      this.store.filterByName(value);
     },
   },
 };

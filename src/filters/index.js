@@ -4,11 +4,11 @@ import _ from 'lodash';
 
 export default {
   // Returns an object {count:Integer,items:filterItems[]}
-  filterItems(table, type, field, filter, unfilteredItems, filteredItems) {
+  filterItems(table, type, field, filter, unfilteredItems) {
     const result = {};
 
-    console.log(this[type](filter.value, '900'));
-    console.log(filteredItems.length);
+    // console.log(this[type](filter.value, '900'));
+    // console.log(filteredItems.length);
 
     // unfilteredItems.forEach((item) => {
     //   if (this[type](filter.value, item.fields[field])) {
@@ -43,9 +43,9 @@ export default {
     //     }
     //   });
     // }
-    console.log(type);
-    console.log(filter);
-    console.log(result);
+    // console.log(type);
+    // console.log(filter);
+    // console.log(result);
     return result;
   },
   // Returns true if match when provided single field value and filter value.
@@ -62,17 +62,17 @@ export default {
   },
   // Returns true if match when provided single field value and filter value.
   string(value, data) { // Returns true if match
-    console.log(`@filters string(value,data): value: ${value}, data: ${data}`);
+    // console.log(`@filters string(value,data): value: ${value}, data: ${data}`);
     let targetField = '';
     targetField = data.toString().toLowerCase();
-    console.log(targetField.includes(value.toString().toLowerCase()));
+    // console.log(targetField.includes(value.toString().toLowerCase()));
     return targetField.includes(value.toString().toLowerCase());
   },
   // Returns true if match when provided single field value and filter value.
   switch(value, data) { // Returns true if match
     // console.log(`@filters string(value,data): value: ${value}, data: ${data}`);
     let targetField = '';
-    console.log('targetField');
+    // console.log('targetField');
     targetField = data;
     return targetField === true;
   },

@@ -18,34 +18,35 @@ const store = {
   paginateRecords() {
 
   },
-  filterByName(value) {
-    const result = {};
+  // Refactored this to use filtering system rather than standalone filter
+  // filterByName(value) {
+  //   const result = {};
 
-    const items = this.state[this.state.activeRecordsName].unfiltered.records;
+  //   const items = this.state[this.state.activeRecordsName].unfiltered.records;
 
-    if (this.state.activeRecordsName === 'products') {
-      Object.keys(items).forEach((key) => {
-        const item = items[key];
-        const displayName = item.fields.name.toLowerCase();
-        if (displayName.includes(value.toLowerCase())) {
-          result[key] = item;
-        }
-      });
-    } else {
-      Object.keys(items).forEach((key) => {
-        const item = items[key];
-        const displayName = item.fields['display-name'].toLowerCase();
-        if (displayName.includes(value.toLowerCase())) {
-          result[key] = item;
-        }
-      });
-    }
+  //   if (this.state.activeRecordsName === 'products') {
+  //     Object.keys(items).forEach((key) => {
+  //       const item = items[key];
+  //       const displayName = item.fields.name.toLowerCase();
+  //       if (displayName.includes(value.toLowerCase())) {
+  //         result[key] = item;
+  //       }
+  //     });
+  //   } else {
+  //     Object.keys(items).forEach((key) => {
+  //       const item = items[key];
+  //       const displayName = item.fields['display-name'].toLowerCase();
+  //       if (displayName.includes(value.toLowerCase())) {
+  //         result[key] = item;
+  //       }
+  //     });
+  //   }
 
-    const records = Object.values(result);
-    // console.log(records);
-    records.sort((a, b) => parseFloat(a.fields.order) - parseFloat(b.fields.order));
-    this.state[this.state.activeRecordsName].filtered.records = records;
-  },
+  //   const records = Object.values(result);
+  //   // console.log(records);
+  //   records.sort((a, b) => parseFloat(a.fields.order) - parseFloat(b.fields.order));
+  //   this.state[this.state.activeRecordsName].filtered.records = records;
+  // },
   setActiveRecordsName(recordsName) {
     this.state.activeRecordsName = recordsName;
   },
@@ -60,6 +61,36 @@ const store = {
   setFilteredRecords(records) {
     records.sort((a, b) => parseFloat(a.fields.order) - parseFloat(b.fields.order));
     this.state[this.state.activeRecordsName].filtered.records = records;
+  },
+  activateNameFilter(field, value) {
+    const { filterGroups } = this.state.filtering;
+    const { activeFilters } = this.state.filtering;
+
+    // Establish filter object
+    function findFilterGroup(filter) {
+      return filter.field === field;
+    }
+
+    const filterGroup = filterGroups.find(findFilterGroup);
+    const filter = filterGroup.filterValues[0];
+    filter.field = filterGroup.field;
+    if (filter.active) {
+      filter.value = value;
+    } else {
+      filter.value = value;
+      filter.active = true;
+      activeFilters.push(filter);
+    }
+
+    // console.log(value);
+    if (value === '') {
+      const index = activeFilters.indexOf(filter);
+      if (index > -1) {
+        activeFilters.splice(index, 1);
+      }
+      filter.active = false;
+      filter.value = null;
+    }
   },
   activateFilter(filter) {
     const { activeFilters } = this.state.filtering;
