@@ -37,7 +37,11 @@
                 <p class="heading xxs">Search Suggestions:</p>
                 <p>Unselect a filter or two to see if that helps
                 </p>
-                <p><a :click="resetFilters()" href="#">Reset all filters and start over</a>
+                <p>
+                  <button class="button primary small" v-on:click="resetFilters()">
+                    <template v-if="!resettingFilters">Reset all filters and start over</template>
+                    <template v-if="resettingFilters">Resetting...</template>
+                  </button>
                 </p>
               </div>
             </div>
@@ -132,6 +136,7 @@ export default {
     return {
       sharedState: this.store.state,
       activeFilters: this.store.state.filtering.activeFilters,
+      resettingFilters: false,
     };
   },
   computed: {
@@ -204,7 +209,9 @@ export default {
   },
   methods: {
     resetFilters() {
+      this.resettingFilters = true;
       this.store.resetFilters(this.sharedState.activeFilterTable);
+      this.resettingFilters = false;
     },
     // updateNameFilter(value) {
     //   this.store.filterByName(value);
