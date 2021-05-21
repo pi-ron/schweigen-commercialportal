@@ -16,7 +16,6 @@
   <div class="filter-container">
     <div class="w-form">
         <div class="input-icon-wrapper">
-          <span class="body-text s">Refactored name filter</span>
           <input type="text" class="input small icon-right w-input"
           maxlength="256"
           v-on:input="activateNameFilter('name',$event.target.value)"
