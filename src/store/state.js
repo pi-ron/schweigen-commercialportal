@@ -215,12 +215,12 @@ const state = reactive({
             active: false,
             filterGroup: 'brand-name',
           },
-          {
-            display: 'Schweigen X',
-            value: 'Schweigen X',
-            active: false,
-            filterGroup: 'brand-name',
-          },
+          // {
+          //   display: 'Schweigen X',
+          //   value: 'Schweigen X',
+          //   active: false,
+          //   filterGroup: 'brand-name',
+          // },
         ],
       },
       {
