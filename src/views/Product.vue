@@ -94,8 +94,8 @@
                   <p class="body-text s">Finish - {{product['finish']}}</p>
                   <p class="body-text s">Fan Speed Levels - {{product['fan-speed-levels']}}</p>
                   <p class="body-text s">Airflow -
-                    <span v-for="motor in motors" :key="motor">
-                      {{motor.fields['motor-flowrate']}}m3/h |
+                    <span class="motor" v-for="motor in motors" :key="motor">
+                      {{motor.fields['motor-flowrate']}}<span class="lighttext">m3/h</span>
                     </span>
                   </p>
                   <p class="body-text s">Control - {{product['control']}}</p>
@@ -162,44 +162,6 @@
       </div>
     </div>
   </div>
-
-  <!-- <div class="feature-section">
-    <div class="container">
-      <div class="wrapper-m product-feature-wrapper">
-        <div class="w-layout-grid feature-grid product-feature">
-          <div id="w-node-_63ee0a10-74ee-035c-f4a9-632a5e72acc7-e5920bf5"
-          class="feature-content-wrapper left top s-p-r-0">
-            <h2 class="heading l">Talking Points</h2>
-          </div>
-          <div class="feature-content-wrapper right">
-            <div class="w-layout-grid l-g-2-col">
-              <div class="feature-block">
-                <div class="feature-icon-wrapper">
-                  <div class="material-icons feature-icon">star</div>
-                </div>
-                <h3 class="heading s">Extraordinary feature</h3>
-                <p class="body-text m">Paragraph</p>
-              </div>
-              <div class="feature-block">
-                <div class="feature-icon-wrapper">
-                  <div class="material-icons feature-icon">star</div>
-                </div>
-                <h3 class="heading s">Unique selling proposition</h3>
-                <p class="body-text m">Paragraph</p>
-              </div>
-              <div class="feature-block">
-                <div class="feature-icon-wrapper">
-                  <div class="material-icons feature-icon">star</div>
-                </div>
-                <h3 class="heading s">Unique selling proposition</h3>
-                <p class="body-text m">Paragraph</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -220,7 +182,7 @@ export default {
     record_id: String,
   },
   mounted() {
-    const motorIds = this.product['motor-option'];
+    const motorIds = this.product['motor-option-lookup'];
 
     motorIds.forEach((id) => {
       this.store.getSingleRecord('Product Motors', id);
@@ -262,6 +224,15 @@ export default {
 </script>
 
 <style lang="scss">
+span.motor {
+  padding-right:4px;
+  margin-right:4px;
+  border-right:1px solid #e6e6e6;
+
+  &:last-of-type {
+    border-right:0;
+  }
+}
 
 .product-hero-wrapper {
   max-height:500px;
