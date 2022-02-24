@@ -106,6 +106,8 @@
                   <p class="body-text s">Warranty on Canopy - {{product['warranty-on-canopy']}}</p>
                   <p class="body-text s">Warranty on Filters -
                     {{product['warranty-on-filters']}}</p>
+                  <p class="body-text s">Warranty on GU10 LED Globes -
+                    {{product['warranty-on-gu10-led-globes']}}</p>
                 </div>
               </div>
             </div>
