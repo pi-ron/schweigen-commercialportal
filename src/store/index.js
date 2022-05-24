@@ -147,6 +147,19 @@ const store = {
       });
     this.state.motors.records = motors.records.sort((a, b) => parseFloat(a['motor-flowrate']) - parseFloat(b['motor-flowrate']));
   },
+  getSingleProduct(id) {
+    this.state.currentProductLoading = true;
+    airtableAxios.get(`/getRecordByAirtableId?table=Catalogue&id=${id}`)
+      .then((response) => {
+        this.setCurrentProduct(response.data.fields);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        this.state.currentProductLoading = false;
+      });
+  },
   getRecords(table) {
     if (table === 'Catalogue') {
       if (this.debug) {

@@ -2,7 +2,7 @@
   <div class="teaser product-teaser w-inline-block">
     <router-link @click="setCurrentProduct(record)"
     :to="{name: 'Product',
-    params: {record_id:record_id,name:name,image:image,model:model}}" class="teaser-link">
+    params: {record_id:record_id}}" class="teaser-link">
       <div class="teaser-thumbnail-wrapper">
         <img
         :src="image"
