@@ -8,7 +8,8 @@
               <div class="line tag-03"></div>
               <div class="tagline s-m-b-0">Commercial Portal</div>
             </div>
-            <h1 class="heading xl">{{ name }}</h1>
+            <h1 v-if="loading" class="heading xl">Loading</h1>
+            <h1 v-if="!loading" class="heading xl">{{ name }}</h1>
             <div class="breadcrumbs">
               <a href="#" class="breadcrumbs-link">Home</a>
               <img src="https://assets.website-files.com/6007b4af01b37638d431e8f4/60178790556ad849c6eb2b2d_Chevron%20Right%20Light.png" alt="">
@@ -21,12 +22,12 @@
       </div>
     </div>
   </div>
-    <div class="section">
+    <div v-if="!loading" class="section">
       <div class="container">
         <div class="wrapper-m s-p-t-0">
           <div class="product-images">
            <div class="product-hero-wrapper">
-            <img :src="image" loading="lazy" :alt="name" class="product-hero"></div>
+            <img :src="product['deep-etched-product-image']" loading="lazy" :alt="product.name" class="product-hero"></div>
             <div class="product-thumbnails">
               <!-- <img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="product-thumbnail">
               <img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="product-thumbnail">
@@ -36,7 +37,7 @@
         </div>
       </div>
     </div>
-      <div class="feature-section">
+    <div v-if="!loading" class="feature-section">
     <div class="container">
       <div class="wrapper-m product-feature-wrapper">
         <div class="w-layout-grid feature-grid product-feature">
@@ -62,7 +63,7 @@
       </div>
     </div>
   </div>
-  <div class="feature-section">
+  <div v-if="!loading" class="feature-section">
     <div class="container">
       <div class="wrapper-m product-feature-wrapper">
         <div class="w-layout-grid feature-grid product-feature">
@@ -172,32 +173,60 @@ import FileType from '@/components/atoms/FileType.vue';
 import FileSize from '@/components/atoms/FileSize.vue';
 
 export default {
-  name: 'Product',
+  name: 'Product2',
   components: {
     FileType,
     FileSize,
   },
   props: {
-    name: String,
-    image: String,
-    model: String,
     record_id: String,
   },
   mounted() {
-    const motorIds = this.product['motor-option-lookup'];
+    // If this page is loaded directly, set currentProduct to a single product
+    const { currentProduct } = this.sharedState;
+    if (Object.keys(currentProduct).length === 0) {
+      this.store.getSingleProduct(this.record_id);
+    }
+  },
+  watch: {
+    loading(newValue) {
+      // Load motors in after the product finishes loading
+      if (!newValue) {
+        console.log(newValue);
+        const motorIds = this.product['motor-option-lookup'];
 
-    motorIds.forEach((id) => {
-      this.store.getSingleRecord('Product Motors', id);
-    });
+        motorIds.forEach((id) => {
+          this.store.getSingleRecord('Product Motors', id);
+        });
+      }
+    },
   },
   data() {
     return {
-      product: this.store.state.currentProduct,
+    //   product: this.store.state.currentProduct,
       sharedState: this.store.state,
       motors: this.store.state.motors.records,
     };
   },
   computed: {
+    name() {
+      return this.store.state.currentProduct.name;
+    },
+    model() {
+      return this.store.state.currentProduct.name;
+    },
+    image() {
+      return this.store.state.currentProduct['deep-etched-product-image'];
+    },
+    product() {
+      return this.store.state.currentProduct;
+    },
+    loading() {
+      return this.sharedState.currentProductLoading;
+    },
+    productsLoading() {
+      return this.sharedState.products.loading;
+    },
     motorsLoading() {
       return this.sharedState.motors.loading;
     },
