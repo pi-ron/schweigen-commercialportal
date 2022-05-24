@@ -27,7 +27,7 @@ const state = reactive({
     error: '',
   },
   currentProduct: {},
-  currentProductLoading: true,
+  currentProductLoading: false,
   downloads: {
     filtered: {
       records: [],
