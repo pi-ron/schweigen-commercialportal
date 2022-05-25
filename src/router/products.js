@@ -4,7 +4,7 @@ import Products from '../views/Products.vue';
 
 const routes = [
   {
-    path: '/',
+    path: '/products',
     name: 'Products',
     component: Products,
   },
