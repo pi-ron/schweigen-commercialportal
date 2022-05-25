@@ -1,5 +1,5 @@
 module.exports = {
-  // filenameHashing: false,
+  filenameHashing: false,
   // chainWebpack: config => {
   //   config.plugins.delete('html')
   //   config.plugins.delete('preload')
