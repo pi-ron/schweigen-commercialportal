@@ -9,7 +9,7 @@ const routes = [
     component: Products,
   },
   {
-    path: '/product/:record_id', // <-- notice the colon
+    path: '/products/product/:record_id', // <-- notice the colon
     name: 'Product',
     component: Product,
     props: true,
