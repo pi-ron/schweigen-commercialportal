@@ -7,7 +7,7 @@
   </div>
   <div class="filter-heading s-m-b-16">
     <span class="body-text s">
-      Showing {{filteredRecordsCount}} of {{allRecordsCount}} products.</span>
+      Showing {{filteredRecordsCount}} of {{allRecordsCount}} downloads.</span>
   </div>
   <div class="filter-container">
     <div class="w-form">
