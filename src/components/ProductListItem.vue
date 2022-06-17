@@ -1,8 +1,11 @@
 <template>
   <div class="teaser product-teaser w-inline-block">
+    <!-- <router-link @click="setCurrentProduct(record)"
+    :to="{name: 'Productv2',
+    params: {model:model}}" class="teaser-link">Productv2</router-link> -->
     <router-link @click="setCurrentProduct(record)"
     :to="{name: 'Product',
-    params: {record_id:record_id}}" class="teaser-link">
+    params: {model:model}}" class="teaser-link">
       <div class="teaser-thumbnail-wrapper">
         <img
         :src="image"

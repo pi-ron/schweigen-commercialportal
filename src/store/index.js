@@ -6,7 +6,7 @@ import filters from '@/filters';
 // import filters from '../filters';
 
 const airtableAxios = axios.create({
-  baseURL: 'https://timdaff.api.stdlib.com/sd977-frontend-api@1.0.0/airtable/',
+  baseURL: 'https://timdaff.api.stdlib.com/sd977-frontend-api@2.0.0/airtable/',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -150,6 +150,20 @@ const store = {
   getSingleProduct(id) {
     this.state.currentProductLoading = true;
     airtableAxios.get(`/getRecordByAirtableId?table=Catalogue&id=${id}`)
+      .then((response) => {
+        this.setCurrentProduct(response.data.fields);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        this.state.currentProductLoading = false;
+      });
+  },
+  getSingleProductByModel(model) {
+    this.state.currentProductLoading = true;
+    console.log('getting product by model');
+    airtableAxios.get(`/getRecordByModel?table=Catalogue&model=${model}`)
       .then((response) => {
         this.setCurrentProduct(response.data.fields);
       })

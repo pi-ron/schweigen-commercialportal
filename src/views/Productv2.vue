@@ -173,19 +173,19 @@ import FileType from '@/components/atoms/FileType.vue';
 import FileSize from '@/components/atoms/FileSize.vue';
 
 export default {
-  name: 'Product',
+  name: 'Productv2',
   components: {
     FileType,
     FileSize,
   },
   props: {
-    model: String,
+    record_id: String,
   },
   mounted() {
     // If this page is loaded directly, set currentProduct to a single product
     const { currentProduct } = this.sharedState;
     if (Object.keys(currentProduct).length === 0) {
-      this.store.getSingleProductByModel(this.model);
+      this.store.getSingleProduct(this.record_id);
     }
   },
   watch: {
@@ -212,8 +212,8 @@ export default {
     name() {
       return this.store.state.currentProduct.name;
     },
-    record_id() {
-      return this.store.state.currentProduct.id;
+    model() {
+      return this.store.state.currentProduct.name;
     },
     image() {
       return this.store.state.currentProduct['deep-etched-product-image'];

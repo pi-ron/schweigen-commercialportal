@@ -1,5 +1,7 @@
 # SD977-commercialportal
 
+Using node v8.17.0
+
 ## Project setup
 ```
 npm install
