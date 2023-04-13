@@ -48,11 +48,13 @@ export default {
       });
     } else {
       this.hostedOn = 'Webflow';
-      this.axios.head(this.url).then((response) => {
-        this.filesize = response.headers['content-length'];
+      this.axios.head(this.url).then(() => {
+        // Webflow does not provide content-length header so have to get it from field.
+        // this.filesize = response.headers['content-length'];
+        // this.filesize = 100400;
         this.loadingFileSize = false;
-        this.humanSize = this.humanFileSize(this.filesize);
-        // console.log(response);
+        this.humanSize = this.humanFileSize(this.size);
+        // console.log(this.filesize);
       }, (error) => {
         console.log(error);
         this.loadingFileSize = false;
