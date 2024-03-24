@@ -6,7 +6,7 @@ import filters from '@/filters';
 // import filters from '../filters';
 
 const airtableAxios = axios.create({
-  baseURL: 'https://timdaff.api.stdlib.com/sd977-frontend-api@2.0.0/airtable/',
+  baseURL: 'https://timdaff.api.stdlib.com/sd977-frontend-api@2.1.0/airtable/',
   headers: {
     'Content-Type': 'application/json',
   },
